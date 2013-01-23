@@ -1,0 +1,49 @@
+Installation instructions for SemanticComments v1.0
+------------------------------------------------------------
+
+Requirements: 
+=============
+
+SMW 1.8 / MW 1.19
+
+Installation:
+=============
+
+Copy the folder SemanticComments into 
+the extensions folder of MediaWiki. SemanticComments will then already work, if you 
+activate it in LocalSetting.php (see below). 
+
+Activating SemanticComments
+---------------------------
+
+The extension is activated by adding the following lines to LocalSettings.php:
+
+include_once('extensions/SemanticComments/SemanticComments.php');
+enableSemanticComments();
+
+Import of the ontology
+----------------------
+
+SemanticComments comes with a small ontology to provide functionality
+for displaying and querying existing comments and some icons.
+
+For that go to Special:Import, select and upload '/extensions/SemanticComments/import/SemanticComments.xml'
+
+To use the delivered icons you need to upload the following files in your wiki:
+'/extensions/SemanticComments/skins/icons/bad_active.png'
+'/extensions/SemanticComments/skins/icons/neutral_active.png'
+'/extensions/SemanticComments/skins/icons/good_active.png'
+'/extensions/SemanticComments/skins/icons/defaultuser.gif'
+'/extensions/SemanticComments/skins/icons/Comment_icon_crystal.png'
+Please be sure that you keep the original file names.
+
+Now you can enter {{ShowComments|show=True}} to any article where you want to get a
+list of all 'related comments' and a form that allows you to enter new comments. 
+
+
+Options:
+========
+
+All configuration options are defined and described in /SemanticComments/SemanticComments.php.
+
+To reformat the style of existing comments or of the comment form, use the provided Cascading Style Sheet in '/skins' directory.

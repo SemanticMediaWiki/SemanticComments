@@ -349,7 +349,7 @@ function cefAddGlobalJSVariables( &$vars ) {
 		if( isset( $cegUseRMUploadFunc ) && $cegUseRMUploadFunc
 			&& isset( $smwgEnableRichMedia ) && $smwgEnableRichMedia )
 		{
-			$uploadWindowPage = SpecialPage::getPage( 'UploadWindow' );
+			$uploadWindowPage = SpecialPageFactory::getPage( 'UploadWindow' );
 			if( isset( $uploadWindowPage ) ) {
 				$uploadWindowUrl = $uploadWindowPage->getTitle()->getFullURL( 'sfDelimiter=' .
 					urlencode( $cegDefaultDelimiter ) . '&sfInputID=collabComEditFormFileAttach' .

@@ -20,7 +20,7 @@
 /**
  * @file
  * @ingroup SemanticComments
- * 
+ *
  * This file contains global functions that are called from the SemanticComments extension.
  *
  * @author Benjamin Langguth
@@ -42,7 +42,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 function enableSemanticComments() {
 	wfProfileIn( __METHOD__ . ' [SemanticComments]' );
 	global $cegIP, $cegEnableSemanticComments,  $cegEnableComment,
-		$wgExtensionMessagesFiles, $wgExtensionAliasesFiles, $wgExtensionFunctions,
+		$wgExtensionMessagesFiles, $wgExtensionFunctions,
 		$wgAutoloadClasses, $wgHooks;
 
 	require_once($cegIP . '/specials/Comment/CE_CommentParserFunctions.php');
@@ -106,7 +106,7 @@ function cefSetupExtension() {
 		'path'           => __FILE__,
 		'name' => 'SemanticComments',
 		'version' => CE_VERSION,
-		'author'=>array("Patrick Barret","Benjamin Langguth","Thomas Schweitzer"), 
+		'author'=>array("Patrick Barret","Benjamin Langguth","Thomas Schweitzer"),
 		'url' => 'https://www.mediawiki.org/wiki/SemanticComments',
 		'description' => 'SemanticComments toolset, eg article comments.'
 		);
@@ -207,7 +207,7 @@ function cefInitNamespaces() {
 
 	define('CE_COMMENT_NS', $cegCommentNamespaceIndex);
 	define('CE_COMMENT_NS_TALK', $cegCommentNamespaceIndex+1);
-	
+
 	cefInitContentLanguage($wgLanguageCode);
 
 	// Register namespace identifiers
@@ -320,7 +320,7 @@ function cefInitUserMessages() {
 
 /**
  * Registers the autocompletion icons of the Comment namespace for the SMWHaloAutocompletion.
- * 
+ *
  * @param array $namespaceMappings
  * @return bool
  */
@@ -332,7 +332,7 @@ function cefRegisterACIcon( &$namespaceMappings) {
 /**
  * Add SemanticComments's global JS variables
  * @param array $vars
- * @return boolean true 
+ * @return boolean true
  */
 function cefAddGlobalJSVariables( &$vars ) {
 	wfProfileIn( __METHOD__ . ' [SemanticComments]' );

@@ -351,7 +351,7 @@ function cefAddGlobalJSVariables( &$vars ) {
 		{
 			$uploadWindowPage = SpecialPageFactory::getPage( 'UploadWindow' );
 			if( isset( $uploadWindowPage ) ) {
-				$uploadWindowUrl = $uploadWindowPage->getTitle()->getFullURL( 'sfDelimiter=' .
+				$uploadWindowUrl = $uploadWindowPage->getPageTitle()->getFullURL( 'sfDelimiter=' .
 					urlencode( $cegDefaultDelimiter ) . '&sfInputID=collabComEditFormFileAttach' .
 					'&wpIgnoreWarning=true'
 				);

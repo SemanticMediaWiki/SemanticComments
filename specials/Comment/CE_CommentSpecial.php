@@ -70,7 +70,7 @@ class CECommentSpecial extends SpecialPage {
 		$popt = new ParserOptions();
 		$popt->setEditSection(false);
 		
-		$pout = $wgParser->parse($queryText, $this->getTitle(), $popt);
+		$pout = $wgParser->parse($queryText, $this->getPageTitle(), $popt);
 		$result = $pout->getText();
 		$wgOut->addHTML($result);
 		wfProfileOut( __METHOD__ . ' [SemanticComments]' );

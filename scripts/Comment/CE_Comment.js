@@ -383,7 +383,6 @@ function CECommentForm() {
 			ratingIcons = $( '<span>', {
 				'id' : 'collabComEditFormRadioButtons'
 			});
-alert("wgCEScriptPath="+wgCEScriptPath );
 			$( '<img>', {
 				'id' : 'collabComEditFormRating1',
 				'class' : 'collabComEditFormRatingImg',

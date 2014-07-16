@@ -87,6 +87,7 @@ $messages['en'] = array(
 	'ce_com_default_header'          => 'Add comment',
 	'ce_com_ext_header'              => 'Community comments',
 	'ce_invalid'                     => 'You didn\'t enter a valid comment.',
+	'ce_invalid_rating'                     => 'You didn\'t enter a valid rating.',
 	'ce_reload'                      => ' Page is reloading ...',
 	'ce_deleting'                    => 'Deleting comment ...',
 	'ce_full_deleting'               => 'Completely deleting comments ...',

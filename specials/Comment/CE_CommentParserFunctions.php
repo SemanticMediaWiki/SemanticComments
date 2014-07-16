@@ -269,8 +269,10 @@ class CECommentParserFunctions {
 					XML::closeElement('span') .
 				XML::closeElement('div');
 
+			global $cegAllowEmptyComments;
 			$script = '<script type="'.$wgJsMimeType.'">/*<![CDATA[*/'.
 				'var wgCEEnableRating = true;' .
+				'var wgCEAllowEmptyComments = ' . ($cegAllowEmptyComments ? 'true' : 'false') . ';' .
 				'/*]]>*/</script>';
 			SMWOutputs::requireHeadItem('CEJS_Variables2', $script);
 		}

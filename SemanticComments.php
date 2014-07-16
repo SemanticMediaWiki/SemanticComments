@@ -107,6 +107,11 @@ $cegUseRMUploadFunc = false;
 ###
 $cegDefaultDelimiter = ',';
 
+###
+# Allow empty comments to be left, basically ratings only
+# Default is false (do not allow empty comments)
+###
+$cegAllowEmptyComments = false;
 
 ###
 # Use ScriptManager

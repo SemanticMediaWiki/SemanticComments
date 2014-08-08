@@ -84,8 +84,6 @@ function cefSetupExtension() {
 		$cegEnableComment, $cegEnableCurrentUsers, $wgSpecialPages,
 		$wgSpecialPageGroups, $wgOut;
 
-	wfLoadExtensionMessages('SemanticComments');
-
 	///// Register specials pages
 	$wgSpecialPages['SemanticComments'] = array('CECommentSpecial');
 

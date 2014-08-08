@@ -79,10 +79,7 @@ function enableSemanticComments() {
  */
 function cefSetupExtension() {
 	wfProfileIn( __METHOD__ . ' [SemanticComments]' );
-	global $cegIP, $wgHooks, $wgParser, $wgExtensionCredits,
-		$wgLanguageCode, $wgVersion, $wgRequest, $wgContLang,
-		$cegEnableComment, $cegEnableCurrentUsers, $wgSpecialPages,
-		$wgSpecialPageGroups, $wgOut;
+	global $wgHooks, $wgExtensionCredits, $wgRequest, $wgContLang, $wgSpecialPages, $wgOut;
 
 	///// Register specials pages
 	$wgSpecialPages['SemanticComments'] = array('CECommentSpecial');

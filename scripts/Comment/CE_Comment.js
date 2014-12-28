@@ -31,9 +31,9 @@ var bind = function(context, method) {return function() {return method.apply(con
 
 /**
  * The CommentForm "class"
- * 
+ *
  */
-;( function( $ ) {
+( function( $ ) {
 
 
 function CECommentForm() {
@@ -68,17 +68,17 @@ function CECommentForm() {
 	/**
 	 * The processForm function takes care about the html input form
 	 * located in the wiki article to enter article comments.
-	 * 
+	 *
 	 * It gets the values from all fields and parses them into a string to form a template.
-	 * 
+	 *
 	 */
 	this.processForm = function() {
 		//1. disable form
 		$( '#collabComForm *:input' ).attr( 'disabled', 'disabled' );
 
 		//2. and add pending indicator
-		if ( typeof this.pendingIndicatorCF === 'undefined' 
-			|| this.pendingIndicatorCF === null ) 
+		if ( typeof this.pendingIndicatorCF === 'undefined'
+			|| this.pendingIndicatorCF === null )
 		{
 			this.pendingIndicatorCF = new CPendingIndicator( $( '#collabComFormTextarea' ) );
 		}
@@ -142,7 +142,7 @@ function CECommentForm() {
 		this.currentPageContent = escape( pageContent );
 		var jqxhr = $.get( mw.util.wikiScript(), {
 				action: 'ajax',
-				rs: 'cef_comment_createNewPage', 
+				rs: 'cef_comment_createNewPage',
 				rsargs: [this.currentPageName, this.currentPageContent]	},
 				this.processFormCallback.bindToFunction( this )
 				);
@@ -155,7 +155,7 @@ function CECommentForm() {
 	 */
 	this.processFormCallback = function( data, textStatus, jqXHR) {
 		/*alert('cef_comment_createNewPage\nstatus='+textStatus+'\n'+data);*/
-		var resultDOM = this.XMLResult = SemanticCommentsXMLTools.createDocumentFromString( data );	
+		var resultDOM = this.XMLResult = SemanticCommentsXMLTools.createDocumentFromString( data );
 		var valueEls= resultDOM.getElementsByTagName( 'value' );
 		var valueEl = valueEls ? valueEls[0] : null;
 		var htmlmsgs= resultDOM.getElementsByTagName( 'message' );
@@ -177,14 +177,14 @@ function CECommentForm() {
 					'id' : 'collabComFormPending',
 					'html' : '&nbsp;'
 				}).appendTo( comMessage );
-				if ( typeof this.pendingIndicatorMsg === 'undefined' 
+				if ( typeof this.pendingIndicatorMsg === 'undefined'
 					|| this.pendingIndicatorMsg === null)
 				{
 					this.pendingIndicatorMsg = new CPendingIndicator( $( '#collabComFormPending' ) );
 				}
 				this.pendingIndicatorMsg.show();
 				//to do a page reload with action=purge
-				var winSearch = window.location.search; 
+				var winSearch = window.location.search;
 				if ( winSearch.indexOf( 'action=purge' ) !== -1 ) {
 					window.location.reload();
 				} else {
@@ -206,7 +206,7 @@ function CECommentForm() {
 
 	/**
 	 * Delete comment page(s).
-	 * 
+	 *
 	 * @param pageName
 	 * @param container
 	 */
@@ -253,7 +253,7 @@ function CECommentForm() {
 		this.pendingIndicatorDel.show();
 		var jqxhr = $.get( mw.util.wikiScript(),
 				{action: 'ajax',
-				rs: fullDelete ? 'cef_comment_fullDeleteComments' : 'cef_comment_deleteComment', 
+				rs: fullDelete ? 'cef_comment_fullDeleteComments' : 'cef_comment_deleteComment',
 				rsargs: [escape( commentsToDelete )] },
 				this.deleteCommentCallback.bindToFunction( this )
 				);
@@ -264,7 +264,7 @@ function CECommentForm() {
 	 */
 	this.deleteCommentCallback = function( data, textStatus, jqXHR) {
 		/*alert('cef_comment_deleteComment\nstatus='+textStatus+'\n'+data);*/
-		var resultDOM = this.XMLResult = SemanticCommentsXMLTools.createDocumentFromString( data );	
+		var resultDOM = this.XMLResult = SemanticCommentsXMLTools.createDocumentFromString( data );
 		var valueEl = resultDOM.getElementsByTagName( 'value' )[0];
 		var htmlmsg = resultDOM.getElementsByTagName( 'message' )[0].firstChild.nodeValue;
 		var page = resultDOM.getElementsByTagName( 'article' )[0].firstChild.nodeValue;
@@ -287,14 +287,14 @@ function CECommentForm() {
 					'id' : 'collabComDelPending',
 					'html' : '&nbsp;'
 				}).appendTo( comEditMessage );
-				if ( typeof this.pendingIndicatorDel2 === 'undefined' 
+				if ( typeof this.pendingIndicatorDel2 === 'undefined'
 					|| this.pendingIndicatorDel2 === null)
 				{
 					this.pendingIndicatorDel2 = new CPendingIndicator( pendingSpan );
 				}
 				this.pendingIndicatorDel2.show();
 				// do a page reload with action=purge
-				var winSearch = window.location.search; 
+				var winSearch = window.location.search;
 				if ( winSearch.indexOf('action=purge') !== -1 ) {
 					window.location.reload();
 				} else {
@@ -472,11 +472,11 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 		$( elemSelector + ' .collabComResText' ).append( fileAttachField );
 		$( elemSelector + ' .collabComResText' ).append( fileAttachSpan );
 		$( elemSelector + ' .collabComResText' ).append( buttonBox );
-		
+
 		$( elemSelector + ' .collabComResText' ).append( msgDiv );
 
 		if ( ratingExistent ) {
-			ceCommentForm.switchEditRating( '#collabComEditFormRating' 
+			ceCommentForm.switchEditRating( '#collabComEditFormRating'
 				+ (parseInt(editRatingValue) + 2), editRatingValue
 			);
 		}
@@ -486,7 +486,7 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 		$( elemSelector + ' .collabComReply' ).hide();
 		return true;
 	};
-	
+
 	/**
 	 * "edit comment" was clicked. Provide the comment form.
 	 */
@@ -495,7 +495,7 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 		$( '#' + this.editCommentName + ' *:input').attr( 'disabled', 'disabled' );
 
 		//2. and add pending indicator
-		if ( typeof this.pendingIndicatorEF === 'undefined' 
+		if ( typeof this.pendingIndicatorEF === 'undefined'
 			|| this.pendingIndicatorEF === null )
 		{
 			this.pendingIndicatorEF = new CPendingIndicator( $( '#collabComEditFormTextarea' ) );
@@ -548,9 +548,9 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 			'|CommentRelatedArticle=' + mw.config.get( 'wgPageName' ) +
 			ratingString  +
 			'|CommentDatetime=##DATE##'+
-			'|CommentContent=' + textArea + 
-			relatedComment + 
-			editorString + 
+			'|CommentContent=' + textArea +
+			relatedComment +
+			editorString +
 			fileAttachString + '|}}';
 		this.currentPageName = escape(
 			$( '.collabComPlain', $( '#' + this.editCommentName ) ).html()
@@ -560,7 +560,7 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 		/*alert('cef_comment_editPage: '+this.currentPageName+'\n'+ this.currentPageContent);*/
 		var jqxhr = $.get( mw.util.wikiScript(), {
 			action: 'ajax',
-			rs: 'cef_comment_editPage', 
+			rs: 'cef_comment_editPage',
 			rsargs:[this.currentPageName, this.currentPageContent] },
 			this.editExistingCommentCallback.bindToFunction( this )
 			);
@@ -568,7 +568,7 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 	};
 
 	/**
-	 * 
+	 *
 	 * @param: request
 	 */
 	this.editExistingCommentCallback = function( data, textStatus, jqXHR) {
@@ -576,7 +576,7 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 		var elemSelector = '#' + this.editCommentName;
 		var resultDOM = this.XMLResult = SemanticCommentsXMLTools.createDocumentFromString( data );
 		var valueEl = resultDOM.getElementsByTagName( 'value' )[0];
-		var htmlmsg = valueEl ? resultDOM.getElementsByTagName( 'message' )[0].firstChild.nodeValue 
+		var htmlmsg = valueEl ? resultDOM.getElementsByTagName( 'message' )[0].firstChild.nodeValue
 				: "<em>system problem</em>";
 
 		this.pendingIndicatorEF.hide();
@@ -596,14 +596,14 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 					'id' : 'collabComEditFormPending',
 					'html' : '&nbsp;'
 				}).appendTo( comEditMessage )
-				if ( typeof this.pendingIndicatorMsg === 'undefined' 
+				if ( typeof this.pendingIndicatorMsg === 'undefined'
 					|| this.pendingIndicatorMsg === null )
 				{
 					this.pendingIndicatorMsg = new CPendingIndicator( $( '#collabComEditFormPending' ) );
 				}
 				this.pendingIndicatorMsg.show();
 				// do a page reload with action=purge
-				var winSearch = window.location.search; 
+				var winSearch = window.location.search;
 				if ( winSearch.indexOf( 'action=purge' ) !== -1 ) {
 					window.location.reload();
 				} else {
@@ -625,7 +625,7 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 	};
 
 	/**
-	 * 
+	 *
 	 */
 	this.cancelCommentEditForm = function( pageName ) {
 		this.editMode = false;
@@ -645,7 +645,7 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 	};
 
 	/**
-	 * 
+	 *
 	 */
 	this.replyCommentForm = function( pageName ) {
 		var container = $( '#' + pageName );
@@ -671,7 +671,7 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 
 	/**
 	 * Function to do all necessary encodings
-	 * to make sure that comments are displayed 
+	 * to make sure that comments are displayed
 	 * excactly the same as in the form
 	 */
 	this.textEncode = function( text ) {
@@ -711,7 +711,7 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 	};
 
 	/**
-	 * 
+	 *
 	 */
 	this.formReset = function() {
 		this.textareaIsDefault = true;
@@ -799,7 +799,7 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 	};
 
 	/**
-	 * This functions toggles the comments and 
+	 * This functions toggles the comments and
 	 * sets the corresponding text in the comment header
 	 */
 	this.toggleComments = function() {
@@ -839,7 +839,7 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 	/**
 	 *  This functions either toggles one given or all file attachments for comments
 	 *  depending on the parameter commentID.
-	 *  
+	 *
 	 * @param commentID: the HTML id of the comment to toggle
 	 * @return true
 	 */
@@ -943,9 +943,9 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 			return commentID;
 		}
 	};
-	
+
 	/**
-	 * This function determines the number of comments, number of ratings 
+	 * This function determines the number of comments, number of ratings
 	 * and the average rating value and stores them in object variables.
 	 */
 	this.setCommentQuantities = function() {
@@ -967,7 +967,7 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 	};
 
 	/**
-	 * Builds the header for handling comments 
+	 * Builds the header for handling comments
 	 */
 	this.buildHeader = function() {
 		this.setCommentQuantities();
@@ -985,7 +985,7 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 		}
 		return true;
 	};
-	
+
 	/**
 	 * Wrapper function for the header
 	 */
@@ -1002,7 +1002,7 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 	/**
 	 * Adds the default header text and makes it bold.
 	 * This text is normally sthg like "Add comment"
-	 * 
+	 *
 	 * @return false
 	 */
 	this.addDefaultHeaderText = function() {
@@ -1039,10 +1039,10 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 		}).appendTo( '.collabComInternHeader' );
 		return true;
 	};
-	
+
 	/**
 	 * This function adds the toggle element for the comment form.
-	 * 
+	 *
 	 * @param {boolean} withPipe Indicates if the Text should be extended with a leading pipe symbol
 	 */
 	this.addFormToggler = function( withPipe ) {
@@ -1070,7 +1070,7 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 
 	/**
 	 * Creates the "change view" select box element.
-	 * 
+	 *
 	 * @return true
 	 */
 	this.addHeaderView = function() {
@@ -1144,9 +1144,9 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 		if ( this.numOfRatings > 0 ) {
 			var ratingSpan = $( '<span>', {
 				'class' : 'collabComInternAvg',
-				'text' : ceLanguage.getMessage( 'ce_com_rating_text_short' ) + ' (' + 
+				'text' : ceLanguage.getMessage( 'ce_com_rating_text_short' ) + ' (' +
 					this.numOfRatings + ') :',
-				'title' : ceLanguage.getMessage( 'ce_com_rating_text' ) + ' ' + 
+				'title' : ceLanguage.getMessage( 'ce_com_rating_text' ) + ' ' +
 					this.numOfRatings + ' ' + ceLanguage.getMessage( 'ce_com_rating_text2' )
 			});
 
@@ -1196,7 +1196,7 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 			.attr( 'name', 'ceFullDelete' )
 			.appendTo( overlayFullDeleteDiv );
 		overlayFullDeleteDivContent = document.createTextNode(
-			ceLanguage.getMessage( 'ce_full_delete' ) 
+			ceLanguage.getMessage( 'ce_full_delete' )
 		);
 		overlayFullDeleteDiv.append( overlayFullDeleteDivContent );
 
@@ -1229,7 +1229,7 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 		overlayDivEl.append( deleteButtonDiv );
 		return overlayDivEl;
 	};
-	
+
 	/**
 	 *
 	 */
@@ -1244,7 +1244,7 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 					$( '.collabComRes' ).removeClass( 'collabComDelSelected' );
 				},
 				onBeforeLoad: function() {
-					ceCommentForm.controlFullDeleteOptions( 
+					ceCommentForm.controlFullDeleteOptions(
 						overlay, i, overlayID.replace ('ceDel', '' )
 					);
 				}
@@ -1266,7 +1266,7 @@ alert("wgCEScriptPath="+wgCEScriptPath );
 		}
 		return true;
 	}
-	
+
 	/**
 	 * This function preloads images to prevent 'loading gap'.
 	 */
@@ -1298,7 +1298,7 @@ $(document).ready(
  * The current DOM structure is saved to be reused in "flat view".
  */
 $(document).ready(
-	function() { 
+	function() {
 		var	domElement,
 			collabFormExists = $( '#collabComForm' ).length > 0 ? true : false;
 		if ( collabFormExists ) {
@@ -1390,7 +1390,7 @@ $(document).ready(
 					domElement.hide();
 				}
 			}
-			if ( ( typeof wgCECommentsDisabled === 'undefined' 
+			if ( ( typeof wgCECommentsDisabled === 'undefined'
 				|| wgCECommentsDisabled === false )
 				&& typeof wgCEUserCanEdit === 'undefined' )
 			{
@@ -1413,7 +1413,7 @@ $(document).ready(
 		});
 		if ( collabFormExists ) {
 			// build header
-			ceCommentForm.buildHeader(); 
+			ceCommentForm.buildHeader();
 			//clone actual structure without events (bind them again later)
 			ceCommentForm.savedStructure = $( '#collabComResults' ).clone();
 			ceCommentForm.showThreaded();
@@ -1434,7 +1434,7 @@ $(document).ready(
 					commentResults.show();
 				}
 				comToggle.html( ' | ' + newComToggleText );
-				
+
 			}
 		}
 	}
@@ -1477,7 +1477,7 @@ function CPendingIndicator( container ) {
 		if ( typeof alignment !== 'undefined' ) {
 			switch( alignment ) {
 				case 'right': {
-					if ( !container ) { 
+					if ( !container ) {
 						alignOffset = $( this.container ).offsetWidth - 16;
 					} else {
 						alignOffset = $( container ).offsetWidth - 16;
@@ -1488,7 +1488,7 @@ function CPendingIndicator( container ) {
 					break;
 			}
 		}
-			
+
 		//if not already done, append the indicator to the content element so it can become visible
 		if ( this.contentElement === null ) {
 				this.contentElement = $( '#content' );
@@ -1507,7 +1507,7 @@ function CPendingIndicator( container ) {
 		this.pendingIndicator.style.display = 'block';
 		this.pendingIndicator.style.visibility = 'visible';
 	};
-	
+
 	/**
 	 * Shows the pending indicator on the specified <element>. This works also
 	 * in popup panels with a defined z-index.
@@ -1522,7 +1522,7 @@ function CPendingIndicator( container ) {
 		this.pendingIndicator.style.visibility = 'visible';
 		this.pendingIndicator.style.position = 'absolute';
 	};
-	
+
 	this.hide = function() {
 		$( this.pendingIndicator ).hide();
 	};
@@ -1530,7 +1530,7 @@ function CPendingIndicator( container ) {
 	this.remove = function() {
 		$( this.pendingIndicator ).remove();
 	};
-	
+
 	// Execute initialize on object creation
 	this.constructor( container );
 }
@@ -1556,7 +1556,7 @@ function SemanticCommentsBrowserDetectLite() {
 	this.isGeckoOrOpera = this.isGecko || this.isOpera;
 	this.isGeckoOrSafari = this.isGecko || this.isSafari;
 }
-//one global instance of SemanticComments Browser detector 
+//one global instance of SemanticComments Browser detector
 window.C_bd = new SemanticCommentsBrowserDetectLite();
 
 /*

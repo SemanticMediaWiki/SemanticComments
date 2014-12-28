@@ -69,7 +69,7 @@ div#collabComResults {
 }
 div.collabComRes {
 	border: 1px solid lightgrey;
-	margin: 5px 0px;
+	margin: 5px 0;
 	padding: 3px;
 	min-height: 50px;
 	clear: both;
@@ -251,7 +251,7 @@ div#collabComFormUser span.uservalue {
 
 div#collabComFormRating {
 	width: 100%;
-	padding: 5px 0px 5px 5px;
+	padding: 5px 0 5px 5px;
 	border: 1px solid lightgrey;
 	background-color: #f7f3f7;
 }
@@ -335,7 +335,7 @@ div#collabComFormButtons {
 
 /* the span for the pending indicator*/
 #collabComFormPending {
-	padding: 0px 3px;
+	padding: 0 3px;
 }
 
 /* warnings created by parser function*/
@@ -357,21 +357,21 @@ div#collabComFormButtons {
 }
 
 #collabComDelPending {
-	padding: 0px 3px;
+	padding: 0 3px;
 }
 
 .cependingElement {
 	position: fixed;
 	z-index: 10001;
-	top: 0px;
-	left: 0px;
+	top: 0;
+	left: 0;
 	display: none;
 }
 
 /* the edit form */
 div#collabComEditFormRating {
 	width: 100%;
-	padding: 5px 0px 5px 5px;;
+	padding: 5px 0 5px 5px;;
 	border: 1px solid lightgrey;
 	background-color: #f7f3f7;
 }

@@ -28,7 +28,7 @@
 
 /* styling for elements inside overlay */
 .ceOverlayDetails {
-	padding: 10px 0px;
+	padding: 10px 0;
 	font-size: 12px;
 	font-weight: bold;
 	color: #fff;
@@ -51,7 +51,7 @@
 	clear: both;
 	color: #fff;
 	width: 100%;
-	padding: 10px 0px;
+	padding: 10px 0;
 	text-align: center;
 }
 .ceCommentSelected {

@@ -21,7 +21,7 @@
 /**
  * @file
  * @ingroup CEComment
- * 
+ *
  * CE_CommentSpecial - comment management.
  *
  * @addtogroup SpecialPage
@@ -31,17 +31,10 @@
 
 //@TODO: license & modify query...
 
-if (!defined('MEDIAWIKI')) die();
-
-global $IP;
-require_once( $IP . "/includes/SpecialPage.php" );
-
 class CECommentSpecial extends SpecialPage {
-
 	public function __construct() {
 		parent::__construct('SemanticComments');
 	}
-
 
 	function execute($query) {
 		wfProfileIn( __METHOD__ . ' [SemanticComments]' );
@@ -66,10 +59,10 @@ class CECommentSpecial extends SpecialPage {
   | searchlabel = <<...further comments>>
   | default=No comments existent in this wiki.
 }}';
-		
+
 		$popt = new ParserOptions();
 		$popt->setEditSection(false);
-		
+
 		$pout = $wgParser->parse($queryText, $this->getPageTitle(), $popt);
 		$result = $pout->getText();
 		$wgOut->addHTML($result);

@@ -20,8 +20,8 @@
 /**
  * @file
  * @ingroup CEComment
- * 
- * This file contains takes care about parser functions 
+ *
+ * This file contains takes care about parser functions
  * for comment component of SemanticComments extension.
  *
  * @author Benjamin Langguth
@@ -49,7 +49,7 @@ function cefInitCommentParserfunctions() {
 	$wgParser->setFunctionHook( 'averagerating', array( 'CECommentParserFunctions', 'getAverageRating' ) );
 	$wgParser->setFunctionHook( 'arraymapce', array( 'CECommentParserFunctions', 'renderArrayMap' ) );
 	$wgParser->setFunctionHook( 'bin2hex', array( 'CECommentParserFunctions', 'ceBin2Hex' ) );
-	
+
 	return true;
 }
 
@@ -74,15 +74,15 @@ class CECommentParserFunctions {
 
 	//--- Constants ---
 	const SUCCESS = 0;
-	
+
 	const FORM_ALREADY_SHOWN = 1;
 	const NOBODY_ALLOWED_TO_COMMENT = 2;
 	const USER_NOT_ALLOWED_TO_COMMENT = 3;
-	
+
 	const COMMENTS_DISABLED = 4;
 	const COMMENTS_FOR_NOT_DEF = 5;
-	
-	
+
+
 	//--- Private fields ---
 	// Title: The title to which the functions are applied
 	private $mTitle = 0;
@@ -154,7 +154,7 @@ class CECommentParserFunctions {
 				return self::$mInstance->commentFormWarning(wfMsg('ce_cf_all_not_allowed'));
 			case self::USER_NOT_ALLOWED_TO_COMMENT:
 				wfProfileOut( __METHOD__ . ' [SemanticComments]' );
-				return self::$mInstance->commentFormWarning(wfMsg('ce_cf_you_not_allowed')); 
+				return self::$mInstance->commentFormWarning(wfMsg('ce_cf_you_not_allowed'));
 			case self::FORM_ALREADY_SHOWN:
 				wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 				return self::$mInstance->commentFormWarning(wfMsg('ce_cf_already_shown'));
@@ -241,14 +241,14 @@ class CECommentParserFunctions {
 		}
 
 		$submitButtonID = 'collabComFormSubmitbuttonID';
-		$resetButtonID = 'collabComFormResetbuttonID'; 
+		$resetButtonID = 'collabComFormResetbuttonID';
 
 		$ratingHTML = '';
 		if( isset($cegEnableRatingForArticles) && $cegEnableRatingForArticles ) {
 			$ratingHTML = XML::openElement('div', array( 'id' => 'collabComFormRating')) .
 					wfMsg('ce_cf_article_rating') .
-					'<span class="collabComFormGrey">' . '&nbsp;' . 
-						wfMsg('ce_cf_article_rating2') . 
+					'<span class="collabComFormGrey">' . '&nbsp;' .
+						wfMsg('ce_cf_article_rating2') .
 					'</span>' . ":" .
 					XML::openElement('span', array( 'id' => 'collabComFormRadiobuttons' )) .
 						XML::Element('img', array( 'id' => 'collabComFormRating1',
@@ -284,7 +284,7 @@ class CECommentParserFunctions {
 		$fileAttachmentHTML = '';
 		if( isset( $cegEnableFileAttachments ) && $cegEnableFileAttachments ) {
 			$fileAttachmentHTML = XML::openElement( 'div',
-				array( 'id' => 'collabComFormFileAttachHelp' ) ) . 
+				array( 'id' => 'collabComFormFileAttachHelp' ) ) .
 				wfMsg( 'ce_cf_file_attach' ) . XML::closeElement( 'div' ) .
 				XML::input( 'collabComFormFileAttach', '', '',
 					array( 'id' => 'collabComFormFileAttach',
@@ -325,7 +325,7 @@ class CECommentParserFunctions {
 					wfMsg('ce_cf_comment') .
 					XML::openElement('span', array('class' => 'red')) .
 						'*' .
-					XML::closeElement('span') . 
+					XML::closeElement('span') .
 					XML::openElement('span') . ':' . XML::closeElement('span') .
 				XML::closeElement('div') .
 				XML::openElement('textarea', array( 'id' => 'collabComFormTextarea',
@@ -336,7 +336,7 @@ class CECommentParserFunctions {
 				XML::closeElement('textarea') .
 				$fileAttachmentHTML .
 				XML::openElement('div', array( 'id' => 'collabComFormButtons' ) ) .
-			XML::submitButton( wfMsg( 'ce_cf_submit_button_name' ), 
+			XML::submitButton( wfMsg( 'ce_cf_submit_button_name' ),
 				array ( 'id' => $submitButtonID) ) .
 			XML::element( 'span', array(
 				'id' => $resetButtonID,
@@ -346,7 +346,7 @@ class CECommentParserFunctions {
 			XML::closeElement('div') . //end collabComFormRight
 			XML::closeElement('div') . //end collabComFormButtons
 			XML::closeElement('form') .
-			XML::openElement('div', array('id' => 'collabComFormMessage', 
+			XML::openElement('div', array('id' => 'collabComFormMessage',
 				'style' => 'display:none')) .
 			XML::closeElement('div') .
 			XML::closeElement('div');
@@ -359,7 +359,7 @@ class CECommentParserFunctions {
 
 	/**
 	 * Function to get the average rating for an article.
-	 * 
+	 *
 	 * @param Parser $parser
 	 */
 	public static function getAverageRating(&$parser) {
@@ -404,7 +404,7 @@ class CECommentParserFunctions {
 				""
 			)
 		);
-		
+
 //		SMWQueryProcessor::processFunctionParams(
 //			array("[[Category:Comment]] [[Belongs to article::" . $title->getFullText() . "]]",
 //				"[[Has comment rating::+]]", "[[Comment was deleted::!true]]",
@@ -434,7 +434,7 @@ class CECommentParserFunctions {
 
 	/**
 	 * Function to convert binary strings to hex equivalents.
-	 * 
+	 *
 	 * @param Parser $parser
 	 * @param String $str
 	 */
@@ -446,9 +446,9 @@ class CECommentParserFunctions {
 	 * This function is equal to Semantic Form's parser function 'arraymap'
 	 * to store attached articles as property values.
 	 * We can skip a template like 'http://meta.wikimedia.org/wiki/Template:For' with this PF.
-	 * 
+	 *
 	 * {{#arraymapce:value|delimiter|var|formula|new_delimiter}}
-	 * 
+	 *
 	 * @param parser the parser object
 	 * @param value
 	 * @param delimiter the actual delimiter
@@ -483,11 +483,11 @@ class CECommentParserFunctions {
 		wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 		return implode( $new_delimiter, $results );
 	}
-	
+
 	/**
 	 * This method is called, when an article is deleted. If the article "has" comment article(s)
 	 * they should be also deleted to prevent article corps.
-	 * 
+	 *
 	 * @param unknown_type $specialPage
 	 * @param Title $title
 	 */
@@ -504,7 +504,7 @@ class CECommentParserFunctions {
 	}
 
 	/**
-	 * This method is called, when an article is undeleted. 
+	 * This method is called, when an article is undeleted.
 	 * Well, wee need a DB Table that stores the article - comment - relation
 	 * just for this functionality :(
 	 *
@@ -554,10 +554,10 @@ class CECommentParserFunctions {
 	 */
 	private function doInitialChecks(&$parser) {
 		global $cegContLang, $wgUser;
-		
+
 		$pfContLangName = $cegContLang->getParserFunction(CELanguage::CE_PF_SHOWCOMMENTS);
 
-		
+
 		# Check if titles fit #
 		$title = $parser->getTitle();
 		if (self::$mInstance->mTitle == null) {
@@ -593,8 +593,6 @@ class CECommentParserFunctions {
 				return self::SUCCESS;
 			/*}*/
 		}
-
-		return self::SUCCESS;
 	}
 
 	/**
@@ -610,7 +608,7 @@ class CECommentParserFunctions {
 var wgCECommentsDisabled = true;
 /* ]]> */ </script>
 END;
-		SMWOutputs::requireHeadItem('CEJS_Disabled', $script);  
+		SMWOutputs::requireHeadItem('CEJS_Disabled', $script);
 
 		$html = '<h2>' . wfMsgHtml( 'ce_warning' ) . "</h2>\n";
 		$html .= '<ul class="collabComWarning">' . $warning . "</ul>\n";

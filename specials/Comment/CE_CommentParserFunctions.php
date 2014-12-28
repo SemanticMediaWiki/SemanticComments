@@ -494,6 +494,7 @@ class CECommentParserFunctions {
 	public static function articleDelete(&$specialPage, &$title) {
 		$name = $title->getFullText();
 		// Check if the title has comment article(s)
+		// @todo FIXME: $this is not available in static context.
 		if (empty($this->mRelCommentTitles))
 			$this->mRelCommentTitles = CECommentQuery::getRelatedCommentArticles($title, '');
 		if ($this->mRelCommentTitles !== false && is_array($this->mRelCommentTitles) &&

@@ -102,7 +102,7 @@ function cefSetupExtension() {
 		'name' => 'SemanticComments',
 		'version' => CE_VERSION,
 		'author'=>array("Patrick Barret","Benjamin Langguth","Thomas Schweitzer"),
-		'url' => 'https://www.mediawiki.org/wiki/SemanticComments',
+		'url' => 'https://www.mediawiki.org/wiki/Extension:SemanticComments',
 		'description' => 'SemanticComments toolset, eg article comments.'
 		);
 

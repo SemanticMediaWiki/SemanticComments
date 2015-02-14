@@ -40,9 +40,9 @@ class CECommentSpecial extends SpecialPage {
 		wfProfileIn( __METHOD__ . ' [SemanticComments]' );
 		global $wgRequest, $wgOut, $wgScriptPath, $wgUser, $wgParser, $smwIP;
 
-		$wgOut->setPageTitle(wfMsg('semanticcomments'));
+		$wgOut->setPageTitle($this->msg('semanticcomments'));
 
-		$introText = wfMsg('ce_sp_intro');
+		$introText = $this->msg('ce_sp_intro')->escaped();
 		$wgOut->addHTML($introText);
 		$queryText = '{{#ask: [[Comment:+]]
   | mainlabel = Comment

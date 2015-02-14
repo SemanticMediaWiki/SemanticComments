@@ -72,7 +72,7 @@ function cef_comment_deleteComment( $pageName ) {
 	wfProfileIn( __METHOD__ . ' [Semantic Comments]' );
 	global $wgUser;
 	$pageName = CECommentUtils::unescape( $pageName );
-	$result = wfMsg( 'ce_nothing_deleted' );
+	$result = wfMessage( 'ce_nothing_deleted' )->text();
 	$success = true;
 	if ( $pageName != null ) {
 		try {
@@ -85,17 +85,17 @@ function cef_comment_deleteComment( $pageName ) {
 			$date = new Datetime( null, new DateTimeZone( 'UTC' ) );
 			$articleContent = preg_replace( '/\|CommentContent.*}}/',
 				'|CommentContent=' . $wgUser->getName() . ' ' .
-				wfMsg( 'ce_comment_has_deleted' ) . ' ' .
+				wfMessage( 'ce_comment_has_deleted' )->text() . ' ' .
 				$date->format( 'r' ) . '|CommentWasDeleted=true|}}',
 				$articleContent
 			);
-			$article->doEdit( $articleContent, wfMsg( 'ce_comment_delete_reason' ) );
+			$article->doEdit( $articleContent, wfMessage( 'ce_comment_delete_reason' )->text() );
 			CEComment::updateRelatedArticle( $articleContent );
-			$result = wfMsg( 'ce_comment_deletion_successful' );
+			$result = wfMessage( 'ce_comment_deletion_successful' )->text();
 			wfProfileOut( __METHOD__ . ' [Semantic Comments]' );
 			return CECommentUtils::createXMLResponse( $result, '0', $pageName );
 		} catch( Exception $e ) {
-			$result .= wfMsg( 'ce_comment_deletion_error' );
+			$result .= wfMessage( 'ce_comment_deletion_error' )->text();
 			$success = false;
 			wfProfileOut( __METHOD__ . ' [Semantic Comments]' );
 			return CECommentUtils::createXMLResponse( $result, '1', $pageName );
@@ -111,7 +111,7 @@ function cef_comment_fullDeleteComments( $pageNames ) {
 	global $wgUser;
 	$pageNames = CECommentUtils::unescape( $pageNames );
 	$pageNames = explode( ',', $pageNames );
-	$result = wfMsg( 'ce_nothing_deleted' );
+	$result = wfMessage( 'ce_nothing_deleted' )->text();
 	$success = false;
 	foreach ( $pageNames as $pageName) {
 		try {
@@ -121,17 +121,17 @@ function cef_comment_fullDeleteComments( $pageNames ) {
 			}
 			$article = new Article( $title );
 			$articleContent = $article->getContent();
-			$articleDel = $article->doDelete( wfMsg( 'ce_comment_delete_reason' ) );
+			$articleDel = $article->doDelete( wfMessage( 'ce_comment_delete_reason' )->text() );
 			$success = true;
 		} catch( Exception $e ) {
-			$result .= wfMsg( 'ce_comment_deletion_error' );
+			$result .= wfMessage( 'ce_comment_deletion_error' )->text();
 			$success = false;
 			wfProfileOut( __METHOD__ . ' [Semantic Comments]' );
 			return CECommentUtils::createXMLResponse( $result, '1', $pageName);
 		}
 	}
 	if( $success ) {
-		$result = wfMsg( 'ce_comment_massdeletion_successful' );
+		$result = wfMessage( 'ce_comment_massdeletion_successful' )->text();
 		wfProfileOut( __METHOD__ . ' [Semantic Comments]' );
 		return CECommentUtils::createXMLResponse( $result, '0', $pageNames[0] );
 	} else {

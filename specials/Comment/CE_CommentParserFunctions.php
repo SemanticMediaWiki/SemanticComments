@@ -145,34 +145,34 @@ class CECommentParserFunctions {
 				break;
 			case self::COMMENTS_DISABLED:
 				wfProfileOut( __METHOD__ . ' [SemanticComments]' );
-				return self::$mInstance->commentFormWarning(wfMsg('ce_cf_disabled'));
+				return self::$mInstance->commentFormWarning(wfMessage('ce_cf_disabled')->text());
 			case self::COMMENTS_FOR_NOT_DEF:
 				wfProfileOut( __METHOD__ . ' [SemanticComments]' );
-				return self::$mInstance->commentFormWarning(wfMsg('ce_var_undef', 'cegEnableCommentFor'));
+				return self::$mInstance->commentFormWarning(wfMessage('ce_var_undef', 'cegEnableCommentFor')->text());
 			case self::NOBODY_ALLOWED_TO_COMMENT:
 				wfProfileOut( __METHOD__ . ' [SemanticComments]' );
-				return self::$mInstance->commentFormWarning(wfMsg('ce_cf_all_not_allowed'));
+				return self::$mInstance->commentFormWarning(wfMessage('ce_cf_all_not_allowed')->text());
 			case self::USER_NOT_ALLOWED_TO_COMMENT:
 				wfProfileOut( __METHOD__ . ' [SemanticComments]' );
-				return self::$mInstance->commentFormWarning(wfMsg('ce_cf_you_not_allowed'));
+				return self::$mInstance->commentFormWarning(wfMessage('ce_cf_you_not_allowed')->text());
 			case self::FORM_ALREADY_SHOWN:
 				wfProfileOut( __METHOD__ . ' [SemanticComments]' );
-				return self::$mInstance->commentFormWarning(wfMsg('ce_cf_already_shown'));
+				return self::$mInstance->commentFormWarning(wfMessage('ce_cf_already_shown')->text());
 			default:
 				wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 				throw new CEException(CEException::INTERNAL_ERROR, __METHOD__ . ": Unknown value `{$status}` <br/>" );
 		}
 
-		$encPreComment = htmlspecialchars(wfMsg('ce_cf_predef'));
+		$encPreComment = htmlspecialchars(wfMessage('ce_cf_predef')->text());
 		$comment_disabled = '';
 
 		#rating#
-		$ratingValues = array( 0 => wfMsg('ce_ce_rating_0'),
-			1 => wfMsg('ce_ce_rating_1'),
-			2 => wfMsg('ce_ce_rating_2'));
-		$ratingTitleBad = wfMsg('ce_cf_rating_title_b');
-		$ratingTitleNeutral = wfMsg('ce_cf_rating_title_n');
-		$ratingTitleGood = wfMsg('ce_cf_rating_title_g');
+		$ratingValues = array( 0 => wfMessage('ce_ce_rating_0')->text(),
+			1 => wfMessage('ce_ce_rating_1')->text(),
+			2 => wfMessage('ce_ce_rating_2')->text());
+		$ratingTitleBad = wfMessage('ce_cf_rating_title_b')->text();
+		$ratingTitleNeutral = wfMessage('ce_cf_rating_title_n')->text();
+		$ratingTitleGood = wfMessage('ce_cf_rating_title_g')->text();
 
 		#user#
 		$currentUser = $wgUser->getName();
@@ -246,9 +246,9 @@ class CECommentParserFunctions {
 		$ratingHTML = '';
 		if( isset($cegEnableRatingForArticles) && $cegEnableRatingForArticles ) {
 			$ratingHTML = XML::openElement('div', array( 'id' => 'collabComFormRating')) .
-					wfMsg('ce_cf_article_rating') .
+					wfMessage('ce_cf_article_rating')->text() .
 					'<span class="collabComFormGrey">' . '&nbsp;' .
-						wfMsg('ce_cf_article_rating2') .
+						wfMessage('ce_cf_article_rating2')->text() .
 					'</span>' . ":" .
 					XML::openElement('span', array( 'id' => 'collabComFormRadiobuttons' )) .
 						XML::Element('img', array( 'id' => 'collabComFormRating1',
@@ -287,7 +287,7 @@ class CECommentParserFunctions {
 		if( isset( $cegEnableFileAttachments ) && $cegEnableFileAttachments ) {
 			$fileAttachmentHTML = XML::openElement( 'div',
 				array( 'id' => 'collabComFormFileAttachHelp' ) ) .
-				wfMsg( 'ce_cf_file_attach' ) . XML::closeElement( 'div' ) .
+				wfMessage( 'ce_cf_file_attach' )->text() . XML::closeElement( 'div' ) .
 				XML::input( 'collabComFormFileAttach', '', '',
 					array( 'id' => 'collabComFormFileAttach',
 						'class' => 'wickEnabled',
@@ -299,8 +299,8 @@ class CECommentParserFunctions {
 				// we need an additional upload link that is connected to the input field
 				$uploadtext = 'Upload file';
 				$uploadTitle = 'Upload title';
-				$rmlWikiText = '{{#rml:' . wfMsg('ce_cf_file_upload_text') . '|' .
-					wfMsg('ce_cf_file_upload_link'). '|sfInputID=collabComFormFileAttach&sfDelimiter=' .
+				$rmlWikiText = '{{#rml:' . wfMessage('ce_cf_file_upload_text')->text() . '|' .
+					wfMessage('ce_cf_file_upload_link')->text() . '|sfInputID=collabComFormFileAttach&sfDelimiter=' .
 					$cegDefaultDelimiter . '}}';
 				$fileAttachmentHTML .= XML::openElement( 'span', array(
 						'id' => 'collabComFormFileAttachLink' ) ) .
@@ -318,13 +318,13 @@ class CECommentParserFunctions {
 			XML::closeElement('div') .
 			XML::openElement('div', array('id' => 'collabComFormRight')) .
 				XML::openElement( 'div', array( 'id' => 'collabComFormUser') ) .
-					'<span class="userkey">' .wfMsg('ce_cf_author') . '</span>' .
+					'<span class="userkey">' .wfMessage('ce_cf_author')->escaped() . '</span>' .
 					'<span class="uservalue">' .
 						$parser->recursiveTagParse('[['.$wgUser->getUserPage()->getPrefixedText().'|'.$currentUser.']]') . '</span>' .
 				XML::closeElement('div') .
 				$ratingHTML .
 				XML::openElement('div', array( 'id' => 'collabComFormHelp')) .
-					wfMsg('ce_cf_comment') .
+					wfMessage('ce_cf_comment')->escaped() .
 					XML::openElement('span', array('class' => 'red')) .
 						'*' .
 					XML::closeElement('span') .
@@ -338,12 +338,12 @@ class CECommentParserFunctions {
 				XML::closeElement('textarea') .
 				$fileAttachmentHTML .
 				XML::openElement('div', array( 'id' => 'collabComFormButtons' ) ) .
-			XML::submitButton( wfMsg( 'ce_cf_submit_button_name' ),
+			XML::submitButton( wfMessage( 'ce_cf_submit_button_name' )->text(),
 				array ( 'id' => $submitButtonID) ) .
 			XML::element( 'span', array(
 				'id' => $resetButtonID,
 				'onClick' => 'ceCommentForm.formReset();')) .
-				' | ' . wfMsg( 'ce_cf_reset_button_name' ) .
+				' | ' . wfMessage( 'ce_cf_reset_button_name' )->escaped() .
 			XML::closeElement('span') .
 			XML::closeElement('div') . //end collabComFormRight
 			XML::closeElement('div') . //end collabComFormButtons
@@ -613,7 +613,7 @@ var wgCECommentsDisabled = true;
 END;
 		SMWOutputs::requireHeadItem('CEJS_Disabled', $script);
 
-		$html = '<h2>' . wfMsgHtml( 'ce_warning' ) . "</h2>\n";
+		$html = '<h2>' . wfMessage( 'ce_warning' )->escaped() . "</h2>\n";
 		$html .= '<ul class="collabComWarning">' . $warning . "</ul>\n";
 		return $html;
 	}

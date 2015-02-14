@@ -64,7 +64,7 @@ class CEComment {
 		if ( !isset( $cegEnableComment ) || !$cegEnableComment ) {
 			wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 			return CECommentUtils::createXMLResponse(
-				wfMsg( 'ce_cf_disabled' ),
+				wfMessage( 'ce_cf_disabled' )->text(),
 				self::PERMISSION_ERROR, $pageName
 			);
 		}
@@ -75,14 +75,14 @@ class CEComment {
 		{
 			wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 			return CECommentUtils::createXMLResponse(
-				wfMsg( 'ce_cf_disabled' ),
+				wfMessage( 'ce_cf_disabled' )->text(),
 				self::PERMISSION_ERROR, $pageName );
 		} else {
 			//user is allowed
 			if ( $article->exists() && !$editMode ) {
 				wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 				return CECommentUtils::createXMLResponse(
-					wfMsg( 'ce_comment_exists', $pageName),
+					wfMessage( 'ce_comment_exists', $pageName )->text(),
 					self::COMMENT_ALREADY_EXISTS, $pageName
 				);
 			}
@@ -108,15 +108,15 @@ try{
 					$date = new Datetime( $queryResult[0], new DateTimeZone( 'UTC' ) );
 					$dateString = $date->format( 'c' );
 				}
-				$responseText = wfMsg( 'ce_com_edited' );
-				$summary = wfMsg( 'ce_com_edit_sum' );
+				$responseText = wfMessage( 'ce_com_edited' )->text();
+				$summary = wfMessage( 'ce_com_edit_sum' )->text();
 }catch (Exception $e) {
 				$responseText = "system error occurred.";
-				$summary = wfMsg( 'ce_sys_err' );
+				$summary = wfMessage( 'ce_sys_err' )->text();
 }
 			} else {
-				$responseText = wfMsg( 'ce_com_created' );
-				$summary = wfMsg( 'ce_com_create_sum' );
+				$responseText = wfMessage( 'ce_com_created' )->text();
+				$summary = wfMessage( 'ce_com_create_sum' )->text();
 			}
 			$pageContent = str_replace( '##DATE##', $dateString, $pageContent );
 			$article->doEdit( $pageContent, $summary );
@@ -130,7 +130,7 @@ try{
 			} else {
 				wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 				return CECommentUtils::createXMLResponse(
-								wfMsg( 'ce_com_edit_not_exists' ), self::PERMISSION_ERROR, $pageName
+								wfMessage( 'ce_com_edit_not_exists' )->text(), self::PERMISSION_ERROR, $pageName
 				);
 			}
 		}

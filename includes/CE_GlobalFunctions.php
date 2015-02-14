@@ -125,6 +125,7 @@ function celfSetupScriptAndStyleModule() {
 		'ce_com_default_header',
 		'ce_com_ext_header',
 		'ce_invalid',
+		'ce_invalid_rating',
 		'ce_reload',
 		'ce_deleting',
 		'ce_full_deleting',

@@ -96,7 +96,7 @@ function CECommentForm() {
 
 		// textarea
 		var textArea = ( $( '#collabComFormTextarea' ).val())? $( '#collabComFormTextarea' ).val(): '';
-		if ( textArea.length === 0 || this.textareaIsDefault ) {
+		if ( wgCEAllowEmptyComments !== true && ( textArea.length === 0 || this.textareaIsDefault ) ) {
 			this.pendingIndicatorCF.hide();
 			$( '#collabComFormMessage' ).attr( 'class', 'failure' );
 			$( '#collabComFormMessage' ).html( ceLanguage.getMessage( 'ce_invalid' ) );
@@ -108,6 +108,21 @@ function CECommentForm() {
 			// hide possibly shown message div
 			$( '#collabComFormMessage' ).hide( 'slow' );
 		}
+		if ( wgCEAllowEmptyComments === true && this.textareaIsDefault ) {
+			// If we allow Empty Comments, set the field to empty instead of the default
+			textArea = '';
+			if ( this.ratingValue === null ) {
+				// If we are allowing Empty Comments, make sure they enter a rating
+				this.pendingIndicatorCF.hide();
+				$( '#collabComFormMessage' ).attr( 'class', 'failure' );
+				$( '#collabComFormMessage' ).html( ceLanguage.getMessage( 'ce_invalid_rating' ) );
+				$( '#collabComFormMessage' ).show( 'slow' );
+				// enable form again
+				$( '#collabComForm *:input' ).removeAttr( 'disabled' );
+				return false;
+			}
+		}
+
 		// escape html chars
 		textArea = textArea.replace( /&/g, '&amp;' );
 		textArea = textArea.replace( /</g, '&lt;' );

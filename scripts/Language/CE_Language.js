@@ -51,18 +51,19 @@ function CELanguage() {
 	 * @return string
 	 * 			The language dependent message for the given ID.
 	 */
-	this.getMessage = function( id) {
+	this.getMessage = function( id ) {
+		var mw = window.mediaWiki;
 		var msg = mw.msg( id );
 		if (!msg) {
 			msg = id;
 		}
 
 		// Replace variables
-		msg = msg.replace(/\$n/g,wgCanonicalNamespace); 
-		msg = msg.replace(/\$p/g,wgPageName);
-		msg = msg.replace(/\$t/g,wgTitle);
-		msg = msg.replace(/\$u/g,wgUserName);
-		msg = msg.replace(/\$s/g,wgServer);
+		msg = msg.replace( /\$n/g, mw.config.get( 'wgCanonicalNamespace' ) );
+		msg = msg.replace( /\$p/g, mw.config.get( 'wgPageName' ) );
+		msg = msg.replace( /\$t/g, mw.config.get( 'wgTitle' ) );
+		msg = msg.replace( /\$u/g, mw.config.get( 'wgUserName' ) );
+		msg = msg.replace( /\$s/g, mw.config.get( 'wgServer' ) );
 		return msg;
 	};
 	

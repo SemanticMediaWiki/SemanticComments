@@ -33,7 +33,7 @@ var bind = function(context, method) {return function() {return method.apply(con
  * The CommentForm "class"
  *
  */
-( function( $ ) {
+( function( $, mw ) {
 
 
 function CECommentForm() {
@@ -108,7 +108,7 @@ function CECommentForm() {
 			// hide possibly shown message div
 			$( '#collabComFormMessage' ).hide( 'slow' );
 		}
-		if ( wgCEAllowEmptyComments === true && this.textareaIsDefault ) {
+		if ( mw.config.get( 'wgCEAllowEmptyComments' ) === true && this.textareaIsDefault ) {
 			// If we allow Empty Comments, set the field to empty instead of the default
 			textArea = '';
 			if ( this.ratingValue === null ) {
@@ -133,8 +133,8 @@ function CECommentForm() {
 		var fileAttachString = '|AttachedArticles=' + fileAttach;
 
 		var userNameString = '';
-		if ( wgUserName !== null && wgCEUserNS !== null ) {
-			userNameString = '|CommentPerson=' + wgCEUserNS + ':' + wgUserName;
+		if ( mw.config.get( 'wgUserName' ) !== null && mw.config.get( 'wgCEUserNS' ) !== null ) {
+			userNameString = '|CommentPerson=' + mw.config.get( 'wgCEUserNS' ) + ':' + mw.config.get( 'wgUserName' );
 		} else {
 			userNameString = '|CommentPerson=';
 		}
@@ -362,7 +362,7 @@ function CECommentForm() {
 			'width', '85%'
 		);
 		// rating only if rating is enabled
-		if ( typeof wgCEEnableRating !== 'undefined' ) {
+		if ( typeof mw.config.get( 'wgCEEnableRating' ) !== 'undefined' ) {
 			ratingIconSrc = $( elemSelector
 				+ ' .collabComResRatingIcon img' ).attr( 'src' );
 			if ( ratingIconSrc ) {
@@ -401,7 +401,7 @@ function CECommentForm() {
 			$( '<img>', {
 				'id' : 'collabComEditFormRating1',
 				'class' : 'collabComEditFormRatingImg',
-				'src' : wgCEScriptPath + '/skins/Comment/icons/bad_inactive.png',
+				'src' : mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/bad_inactive.png',
 				'click' :  function() {
 					ceCommentForm.switchEditRating( '#collabComEditFormRating1', -1 );
 				}
@@ -409,7 +409,7 @@ function CECommentForm() {
 			$( '<img>', {
 				'id' : 'collabComEditFormRating2',
 				'class' : 'collabComEditFormRatingImg',
-				'src' : wgCEScriptPath + '/skins/Comment/icons/neutral_inactive.png',
+				'src' : mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/neutral_inactive.png',
 				'click' :  function() {
 					ceCommentForm.switchEditRating( '#collabComEditFormRating2', 0 );
 				}
@@ -417,7 +417,7 @@ function CECommentForm() {
 			$( '<img>', {
 				'id' : 'collabComEditFormRating3',
 				'class' : 'collabComEditFormRatingImg',
-				'src' : wgCEScriptPath + '/skins/Comment/icons/good_inactive.png',
+				'src' : mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/good_inactive.png',
 				'click' :  function() {
 					ceCommentForm.switchEditRating( '#collabComEditFormRating3', 1 );
 				}
@@ -433,13 +433,13 @@ function CECommentForm() {
 		})
 
 		// file attachments: create input element
-		if ( typeof wgCEEnableAttachments !== undefined ) {
+		if ( typeof mw.config.get( 'wgCEEnableAttachments' ) !== undefined ) {
 			tmp = document.createElement( 'input' );
 			tmp.setAttribute( 'type', 'text' );
 			fileAttachField = $( tmp ).addClass( 'wickEnabled' )
 				.attr( { 'pastens' : 'true', 'id' : 'collabComEditFormFileAttach' } )
 				.val( $( elemSelector + ' .collabComResFileAttachSaved' ).html() );
-			if ( typeof wgCEEditUploadURL !== 'undefined' ) {
+			if ( typeof mw.config.get( 'wgCEEditUploadURL' ) !== 'undefined' ) {
 				fileAttachSpan = $( '<span>', {
 					'id' : 'collabComEditFormFileAttachLink'
 				});
@@ -447,7 +447,7 @@ function CECommentForm() {
 					'id' : 'collabComEditFormFileAttach',
 					'class' : 'rmAlink',
 					'title' : 'Upload file',
-					'href' : wgCEEditUploadURL,
+					'href' : mw.config.get( 'wgCEEditUploadURL' ),
 					'text' : 'Upload file'
 				}).appendTo( fileAttachSpan );
 			}
@@ -539,7 +539,7 @@ function CECommentForm() {
 		} else {
 			commentPerson = commentPerson.split( ':' );
 			commentPerson = commentPerson.pop();
-			commentPerson = '|CommentPerson=' + wgCEUserNS + ':' + commentPerson;
+			commentPerson = '|CommentPerson=' + mw.config.get( 'wgCEUserNS' ) + ':' + commentPerson;
 		}
 		var relatedComment = '';
 		if ( this.editCommentRelatedComment !== null
@@ -548,8 +548,8 @@ function CECommentForm() {
 			relatedComment = '|CommentRelatedComment=' + this.editCommentRelatedComment;
 		}
 		var editorString = '';
-		if ( mw.config.get( 'wgUserName' ) !== null && wgCEUserNS !== null ) {
-			editorString = '|CommentLastEditor=' + wgCEUserNS + ':' + mw.config.get( 'wgUserName' );
+		if ( mw.config.get( 'wgUserName' ) !== null && mw.config.get( 'wgCEUserNS' ) !== null ) {
+			editorString = '|CommentLastEditor=' + mw.config.get( 'wgCEUserNS' ) + ':' + mw.config.get( 'wgUserName' );
 		} else {
 			editorString = '|CommentLastEditor=';
 		}
@@ -763,7 +763,7 @@ function CECommentForm() {
 	 */
 	this.switchRating = function( htmlid, ratingValue ) {
 		var ratingHTML = $( htmlid );
-		var ratingImg = wgCEScriptPath + '/skins/Comment/icons/';
+		var ratingImg = mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/';
 		var oldhtmlid = '#collabComFormRating' + String( this.ratingValue + 2 );
 		$( oldhtmlid ).attr( 'src', $( oldhtmlid ).attr(
 			'src' ).replace( /_active/g, '_inactive' )
@@ -790,7 +790,7 @@ function CECommentForm() {
 	 */
 	this.switchEditRating = function( htmlid, ratingValue ) {
 		var ratingHTML = $( htmlid );
-		var ratingImg = wgCEScriptPath + '/skins/Comment/icons/';
+		var ratingImg = mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/';
 		var oldhtmlid = '#collabComEditFormRating' + String( this.editRatingValue + 2 );
 		$( oldhtmlid ).attr( 'src', $( oldhtmlid ).attr(
 			'src' ).replace( /_active/g, '_inactive' )
@@ -988,8 +988,8 @@ function CECommentForm() {
 		var expandedHead = this.addHeaderText();
 		if ( expandedHead === true ) {
 			this.addCommentToggler();
-			if ( typeof wgCECommentsDisabled === 'undefined'
-				|| wgCECommentsDisabled === false )
+			if ( typeof mw.config.get( 'wgCECommentsDisabled' ) === 'undefined'
+				|| mw.config.get( 'wgCECommentsDisabled' ) === false )
 			{
 				this.addFormToggler( true ); //remove header
 			}
@@ -1061,7 +1061,7 @@ function CECommentForm() {
 	 */
 	this.addFormToggler = function( withPipe ) {
 		var toggleSpan ='';
-		if ( typeof wgCEUserCanEdit !== 'undefined' && wgCEUserCanEdit === false ) {
+		if ( typeof mw.config.get( 'wgCEUserCanEdit' ) !== 'undefined' && mw.config.get( 'wgCEUserCanEdit' ) === false ) {
 			toggleSpan = $( '<span>', {
 				'id' : 'collabComFormToggle',
 				'style' : 'color: grey; cursor: default;',
@@ -1168,7 +1168,7 @@ function CECommentForm() {
 				'class' : 'collabComInternRatingIcon'
 			});
 			var ratingIcon = $( '<img>' );
-			var ratingIconSrc = wgCEScriptPath + '/skins/Comment/icons/';
+			var ratingIconSrc = mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/';
 			if ( this.averageRating < -0.33 ) {
 				$( ratingIcon ).attr( 'src', ratingIconSrc + 'bad_active.png' );
 			} else if ( this.averageRating >= -0.33 && this.averageRating <= 0.33 ) {
@@ -1270,9 +1270,9 @@ function CECommentForm() {
 	 *
 	 */
 	this.controlFullDeleteOptions = function( overlay, overlayNum, commentID ) {
-		if ( typeof wgCEEnableFullDeletion !== 'undefined' && this.currentView === 0
-			&& ( typeof wgCEUserIsSysop !== 'undefined'
-			&& wgCEUserIsSysop !== null && wgCEUserIsSysop !== false ) )
+		if ( typeof mw.config.get( 'wgCEEnableFullDeletion' ) !== 'undefined' && this.currentView === 0
+			&& ( typeof mw.config.get( 'wgCEUserIsSysop' ) !== 'undefined'
+			&& mw.config.get( 'wgCEUserIsSysop' ) !== null && mw.config.get( 'wgCEUserIsSysop' ) !== false ) )
 		{
 			var moooo = $( '.ceOverlayFullDeleteDiv', $( '#overlay_' + overlayNum ) ).show();
 		} else {
@@ -1286,11 +1286,11 @@ function CECommentForm() {
 	 */
 	this.preloadImages = function() {
 		var preloadImages = new Array();
-		preloadImages[0] = wgCEScriptPath + '/skins/Comment/icons/good_active.png';
-		preloadImages[1] = wgCEScriptPath + '/skins/Comment/icons/neutral_active.png';
-		preloadImages[2] = wgCEScriptPath + '/skins/Comment/icons/bad_active.png';
-		preloadImages[3] = wgCEScriptPath + '/skins/Comment/icons/Edit_button2_Active.png';
-		preloadImages[4] = wgCEScriptPath + '/skins/Comment/icons/DeletedComment.png';
+		preloadImages[0] = mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/good_active.png';
+		preloadImages[1] = mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/neutral_active.png';
+		preloadImages[2] = mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/bad_active.png';
+		preloadImages[3] = mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/Edit_button2_Active.png';
+		preloadImages[4] = mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/DeletedComment.png';
 		for ( i = 0; i < preloadImages.length; i++ ) {
 			var preloadImage = new Image();
 			preloadImage.src = preloadImages[i];
@@ -1327,7 +1327,7 @@ $(document).ready(
 			if ( resComDeleted.html() === 'true' ) {
 				$( '.collabComResText', resCom ).addClass( 'collabComDeleted' );
 				$( '.collabComResPerson img', resCom ).attr(
-					'src', wgCEScriptPath + '/skins/Comment/icons/DeletedComment.png'
+					'src', mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/DeletedComment.png'
 				);
 				$( '.collabComResRating', resCom ).remove();
 				// this comment has been marked as deleted -> step out
@@ -1349,8 +1349,8 @@ $(document).ready(
 				commentPerson = commentPerson.split( ':' );
 				commentPerson = commentPerson.pop();
 			}
-			if ( ( typeof wgCEUserIsSysop !== 'undefined'
-				&& wgCEUserIsSysop !== null && wgCEUserIsSysop !== false )
+			if ( ( typeof mw.config.get( 'wgCEUserIsSysop' ) !== 'undefined'
+				&& mw.config.get( 'wgCEUserIsSysop' ) !== null && mw.config.get( 'wgCEUserIsSysop' ) !== false )
 				|| (mw.config.get( 'wgUserName' ) !== null
 				&& commentPerson === mw.config.get( 'wgUserName' ) ) )
 			{
@@ -1367,13 +1367,13 @@ $(document).ready(
 				});
 				$( '<img>', {
 					'class' : 'collabComDeleteImg',
-					'src' : wgCEScriptPath + '/skins/Comment/icons/Delete_button.png'
+					'src' : mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/Delete_button.png'
 				}).appendTo( domElement );
 				$( '.collabComResDate', resCom ).after( domElement );
 				$( '#collabComResults' ).after( overlayDiv );
 
-				if ( typeof wgCECommentsDisabled === 'undefined'
-					|| wgCECommentsDisabled === false )
+				if ( typeof mw.config.get( 'wgCECommentsDisabled' ) === 'undefined'
+					|| mw.config.get( 'wgCECommentsDisabled' ) === false )
 				{
 					// edit
 					domElement = $( '<span>', {
@@ -1385,7 +1385,7 @@ $(document).ready(
 					});
 					$( '<img>', {
 						'class' : 'collabComEditImg',
-						'src' : wgCEScriptPath + '/skins/Comment/icons/Edit_button2.png'
+						'src' : mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/Edit_button2.png'
 					}).appendTo( domElement );
 					$( '.collabComResDate', resCom ).after( domElement );
 					// cancel edit
@@ -1398,15 +1398,15 @@ $(document).ready(
 					});
 					$( '<img>', {
 						'class' : 'collabComEditCancelImg',
-						'src' : wgCEScriptPath + '/skins/Comment/icons/Edit_button2_Active.png'
+						'src' : mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/Edit_button2_Active.png'
 					}).appendTo( domElement );
 					$( '.collabComResDate', resCom ).after( domElement );
 					domElement.hide();
 				}
 			}
-			if ( ( typeof wgCECommentsDisabled === 'undefined'
-				|| wgCECommentsDisabled === false )
-				&& typeof wgCEUserCanEdit === 'undefined' )
+			if ( ( typeof mw.config.get( 'wgCECommentsDisabled' ) === 'undefined'
+				|| mw.config.get( 'wgCECommentsDisabled' ) === false )
+				&& typeof mw.config.get( 'wgCEUserCanEdit' ) === 'undefined' )
 			{
 				// reply
 				domElement = $( '<span>', {
@@ -1420,7 +1420,7 @@ $(document).ready(
 
 				$( '<img>', {
 					'class' : 'collabComReplyImg',
-					'src' : wgCEScriptPath + '/skins/Comment/icons/Reply_Comment.png'
+					'src' : mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/Reply_Comment.png'
 				}).appendTo( domElement );
 			}
 			return true;
@@ -1437,7 +1437,7 @@ $(document).ready(
 				var commentResults = $( '#collabComResults' );
 				var newComToggleText = '';
 				// handling default visibillity of comments
-				if ( !wgCEShowCommentsExpanded ) {
+				if ( !mw.config.get( 'wgCEShowCommentsExpanded' ) ) {
 					newComToggleText = ceLanguage.getMessage( 'ce_com_show' );
 					commentResults.hide();
 					//hide "Add" and "View"
@@ -1593,5 +1593,5 @@ SemanticCommentsXMLTools.createDocumentFromString = function( xmlText ) {
 	}
 	return xmlDoc;
 }
-})( jQuery );
+})( jQuery, window.mediaWiki );
 

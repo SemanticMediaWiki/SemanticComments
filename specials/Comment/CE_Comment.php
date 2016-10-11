@@ -43,12 +43,13 @@ class CEComment {
 	const SUCCESS = 0;
 	const COMMENT_ALREADY_EXISTS = 1;
 	const PERMISSION_ERROR = 2;
-	
+
 	/**
 	 * This function creates a new comment article
 	 * @param string $pageName
 	 * @param string $pageContent
 	 * @param bool $editMode
+	 * @return string
 	 */
 	public static function createComment( $pageName, $pageContent, $editMode = false ) {
 		wfProfileIn( __METHOD__ . ' [SemanticComments]' );
@@ -143,7 +144,7 @@ try{
 	 */
 	public static function updateRelatedArticle( $commentContent ) {
 		wfProfileIn( __METHOD__ . ' [SemanticComments]' );
-		global $wgParser;
+		global $wgParser, $wgUser;
 		$commentHasRating = preg_match('/CommentRating=/', $commentContent);
 		$find = preg_match('/CommentRelatedArticle=(.*?)\|/', $commentContent, $extract);
 		$relatedArticle = $extract[1];
@@ -155,9 +156,8 @@ try{
 			$article = new Article( $title );
 			$text = $article->getContent();
 			$options = new ParserOptions;
-			$output = $wgParser->parse( $article->preSaveTransform( $text ), 
-				$article->mTitle, $options
-			);
+			$text = $wgParser->preSaveTransform( $text, $title, $wgUser, $options );
+			$output = $wgParser->parse( $text, $article->mTitle, $options);
 			if ( isset( $output->mSMWData ) ) {
 				$store = smwfGetStore();
 				$store->updateData( $output->mSMWData );

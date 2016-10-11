@@ -155,12 +155,18 @@ function CECommentForm() {
 
 		this.currentPageName = escape( pageName );
 		this.currentPageContent = escape( pageContent );
-		var jqxhr = $.get( mw.util.wikiScript(), {
-				action: 'ajax',
-				rs: 'cef_comment_createNewPage',
-				rsargs: [this.currentPageName, this.currentPageContent]	},
-				this.processFormCallback.bindToFunction( this )
-				);
+		var jqxhr = $.ajax( {
+			method: 'GET',
+			url: mw.util.wikiScript( 'api' ),
+			data: {
+				'action': 'commentsCreatePage',
+				'title': this.currentPageName,
+				'content': this.currentPageContent,
+				'format': 'json'
+			},
+			dataType: 'json',
+			success: this.processFormCallback.bindToFunction( this )
+		} );
 		return false;
 	};
 
@@ -170,7 +176,7 @@ function CECommentForm() {
 	 */
 	this.processFormCallback = function( data, textStatus, jqXHR) {
 		/*alert('cef_comment_createNewPage\nstatus='+textStatus+'\n'+data);*/
-		var resultDOM = this.XMLResult = SemanticCommentsXMLTools.createDocumentFromString( data );
+		var resultDOM = this.XMLResult = SemanticCommentsXMLTools.createDocumentFromString( data.data );
 		var valueEls= resultDOM.getElementsByTagName( 'value' );
 		var valueEl = valueEls ? valueEls[0] : null;
 		var htmlmsgs= resultDOM.getElementsByTagName( 'message' );
@@ -266,12 +272,18 @@ function CECommentForm() {
 			this.pendingIndicatorDel = new CPendingIndicator( $( '#collabComDelPending' ) );
 		}
 		this.pendingIndicatorDel.show();
-		var jqxhr = $.get( mw.util.wikiScript(),
-				{action: 'ajax',
-				rs: fullDelete ? 'cef_comment_fullDeleteComments' : 'cef_comment_deleteComment',
-				rsargs: [escape( commentsToDelete )] },
-				this.deleteCommentCallback.bindToFunction( this )
-				);
+		var jqxhr = $.ajax( {
+			method: 'GET',
+			url: mw.util.wikiScript( 'api' ),
+			data: {
+				'action': 'commentsDelete',
+				'commentsToDelete': escape( commentsToDelete ),
+				'fullDelete': fullDelete,
+				'format': 'json'
+			},
+			dataType: 'json',
+			success: this.deleteCommentCallback.bindToFunction( this )
+		} );
 	};
 
 	/**
@@ -279,7 +291,7 @@ function CECommentForm() {
 	 */
 	this.deleteCommentCallback = function( data, textStatus, jqXHR) {
 		/*alert('cef_comment_deleteComment\nstatus='+textStatus+'\n'+data);*/
-		var resultDOM = this.XMLResult = SemanticCommentsXMLTools.createDocumentFromString( data );
+		var resultDOM = this.XMLResult = SemanticCommentsXMLTools.createDocumentFromString( data.data );
 		var valueEl = resultDOM.getElementsByTagName( 'value' )[0];
 		var htmlmsg = resultDOM.getElementsByTagName( 'message' )[0].firstChild.nodeValue;
 		var page = resultDOM.getElementsByTagName( 'article' )[0].firstChild.nodeValue;
@@ -572,12 +584,19 @@ function CECommentForm() {
 		this.currentPageContent = escape( pageContent );
 		//do ajax call
 		/*alert('cef_comment_editPage: '+this.currentPageName+'\n'+ this.currentPageContent);*/
-		var jqxhr = $.get( mw.util.wikiScript(), {
-			action: 'ajax',
-			rs: 'cef_comment_editPage',
-			rsargs:[this.currentPageName, this.currentPageContent] },
-			this.editExistingCommentCallback.bindToFunction( this )
-			);
+		var jqxhr = $.ajax( {
+			method: 'GET',
+			url: mw.util.wikiScript( 'api' ),
+			data: {
+				'action': 'commentsCreatePage',
+				'title': this.currentPageName,
+				'content': this.currentPageContent,
+				'edit': true,
+				'format': 'json'
+			},
+			dataType: 'json',
+			success: this.editExistingCommentCallback.bindToFunction( this )
+		} );
 		return true;
 	};
 
@@ -588,7 +607,7 @@ function CECommentForm() {
 	this.editExistingCommentCallback = function( data, textStatus, jqXHR) {
 		/*alert('cef_comment_editPage\nstatus='+textStatus+'\n'+data);*/
 		var elemSelector = '#' + this.editCommentName;
-		var resultDOM = this.XMLResult = SemanticCommentsXMLTools.createDocumentFromString( data );
+		var resultDOM = this.XMLResult = SemanticCommentsXMLTools.createDocumentFromString( data.data );
 		var valueEl = resultDOM.getElementsByTagName( 'value' )[0];
 		var htmlmsg = valueEl ? resultDOM.getElementsByTagName( 'message' )[0].firstChild.nodeValue
 				: "<em>system problem</em>";

@@ -43,7 +43,7 @@ function enableSemanticComments() {
 	wfProfileIn( __METHOD__ . ' [SemanticComments]' );
 	global $cegIP, $cegEnableSemanticComments,  $cegEnableComment,
 		$wgExtensionMessagesFiles, $wgExtensionFunctions,
-		$wgAutoloadClasses, $wgHooks;
+		$wgAutoloadClasses, $wgHooks, $wgAPIModules;
 
 	require_once($cegIP . '/specials/Comment/CE_CommentParserFunctions.php');
 
@@ -59,7 +59,11 @@ function enableSemanticComments() {
 	//--- Autoloading for exception classes ---
 	$wgAutoloadClasses['CEException'] = $cegIP . '/exeptions/CE_Exception.php';
 
-	require_once($cegIP . '/specials/Comment/CE_CommentAjaxAccess.php');
+	$wgAutoloadClasses['CECommentCreatePageApi'] = $cegIP . '/api/CE_CommentCreatePageApi.php';
+	$wgAPIModules['commentsCreatePage'] = '\CECommentCreatePageApi';
+
+	$wgAutoloadClasses['CECommentDeleteApi'] = $cegIP . '/api/CE_CommentDeleteApi.php';
+	$wgAPIModules['commentsDelete'] = '\CECommentDeleteApi';
 
 	$wgAutoloadClasses['CECommentSpecial'] = $cegIP . '/specials/Comment/CE_CommentSpecial.php';
 

@@ -374,7 +374,7 @@ function CECommentForm() {
 			'width', '85%'
 		);
 		// rating only if rating is enabled
-		if ( typeof mw.config.get( 'wgCEEnableRating' ) !== 'undefined' ) {
+		if ( mw.config.get( 'wgCEEnableRating' ) !== null ) {
 			ratingIconSrc = $( elemSelector
 				+ ' .collabComResRatingIcon img' ).attr( 'src' );
 			if ( ratingIconSrc ) {
@@ -445,13 +445,13 @@ function CECommentForm() {
 		})
 
 		// file attachments: create input element
-		if ( typeof mw.config.get( 'wgCEEnableAttachments' ) !== undefined ) {
+		if ( mw.config.get( 'wgCEEnableAttachments' ) !== null ) {
 			tmp = document.createElement( 'input' );
 			tmp.setAttribute( 'type', 'text' );
 			fileAttachField = $( tmp ).addClass( 'wickEnabled' )
 				.attr( { 'pastens' : 'true', 'id' : 'collabComEditFormFileAttach' } )
 				.val( $( elemSelector + ' .collabComResFileAttachSaved' ).html() );
-			if ( typeof mw.config.get( 'wgCEEditUploadURL' ) !== 'undefined' ) {
+			if ( mw.config.get( 'wgCEEditUploadURL' ) !== null ) {
 				fileAttachSpan = $( '<span>', {
 					'id' : 'collabComEditFormFileAttachLink'
 				});
@@ -989,9 +989,9 @@ function CECommentForm() {
 		}
 		var avgRating = 0;
 		$( '.collabComResRatingIcon' ).each( function() {
-			if ( $( 'img', this ).attr( 'src' ).indexOf( 'Bad' ) >=0 ) {
+			if ( $( 'img', this ).attr( 'src' ).indexOf( 'Bad' ) >= 0 ) {
 				avgRating--;
-			} else if ( $( 'img', this ).attr( 'src' ).indexOf( 'Good' ) >=0 ) {
+			} else if ( $( 'img', this ).attr( 'src' ).indexOf( 'Good' ) >= 0 ) {
 				avgRating++;
 			}
 		});
@@ -1007,9 +1007,8 @@ function CECommentForm() {
 		var expandedHead = this.addHeaderText();
 		if ( expandedHead === true ) {
 			this.addCommentToggler();
-			if ( typeof mw.config.get( 'wgCECommentsDisabled' ) === 'undefined'
-				|| mw.config.get( 'wgCECommentsDisabled' ) === false )
-			{
+			var commentsDisabled = mw.config.get( 'wgCECommentsDisabled' );
+			if ( commentsDisabled === null || commentsDisabled === false ) {
 				this.addFormToggler( true ); //remove header
 			}
 			this.addHeaderView();
@@ -1080,7 +1079,7 @@ function CECommentForm() {
 	 */
 	this.addFormToggler = function( withPipe ) {
 		var toggleSpan ='';
-		if ( typeof mw.config.get( 'wgCEUserCanEdit' ) !== 'undefined' && mw.config.get( 'wgCEUserCanEdit' ) === false ) {
+		if ( mw.config.get( 'wgCEUserCanEdit' ) !== null && mw.config.get( 'wgCEUserCanEdit' ) === false ) {
 			toggleSpan = $( '<span>', {
 				'id' : 'collabComFormToggle',
 				'style' : 'color: grey; cursor: default;',
@@ -1289,9 +1288,8 @@ function CECommentForm() {
 	 *
 	 */
 	this.controlFullDeleteOptions = function( overlay, overlayNum, commentID ) {
-		if ( typeof mw.config.get( 'wgCEEnableFullDeletion' ) !== 'undefined' && this.currentView === 0
-			&& ( typeof mw.config.get( 'wgCEUserIsSysop' ) !== 'undefined'
-			&& mw.config.get( 'wgCEUserIsSysop' ) !== null && mw.config.get( 'wgCEUserIsSysop' ) !== false ) )
+		if ( mw.config.get( 'wgCEEnableFullDeletion' ) !== null && this.currentView === 0
+			&& mw.config.get( 'wgCEUserIsSysop' ) !== null && mw.config.get( 'wgCEUserIsSysop' ) !== false )
 		{
 			var moooo = $( '.ceOverlayFullDeleteDiv', $( '#overlay_' + overlayNum ) ).show();
 		} else {
@@ -1368,8 +1366,7 @@ $(document).ready(
 				commentPerson = commentPerson.split( ':' );
 				commentPerson = commentPerson.pop();
 			}
-			if ( ( typeof mw.config.get( 'wgCEUserIsSysop' ) !== 'undefined'
-				&& mw.config.get( 'wgCEUserIsSysop' ) !== null && mw.config.get( 'wgCEUserIsSysop' ) !== false )
+			if ( ( mw.config.get( 'wgCEUserIsSysop' ) !== null && mw.config.get( 'wgCEUserIsSysop' ) !== false )
 				|| (mw.config.get( 'wgUserName' ) !== null
 				&& commentPerson === mw.config.get( 'wgUserName' ) ) )
 			{
@@ -1391,7 +1388,7 @@ $(document).ready(
 				$( '.collabComResDate', resCom ).after( domElement );
 				$( '#collabComResults' ).after( overlayDiv );
 
-				if ( typeof mw.config.get( 'wgCECommentsDisabled' ) === 'undefined'
+				if ( mw.config.get( 'wgCECommentsDisabled' ) === null
 					|| mw.config.get( 'wgCECommentsDisabled' ) === false )
 				{
 					// edit
@@ -1423,9 +1420,9 @@ $(document).ready(
 					domElement.hide();
 				}
 			}
-			if ( ( typeof mw.config.get( 'wgCECommentsDisabled' ) === 'undefined'
+			if ( ( mw.config.get( 'wgCECommentsDisabled' ) === null
 				|| mw.config.get( 'wgCECommentsDisabled' ) === false )
-				&& typeof mw.config.get( 'wgCEUserCanEdit' ) === 'undefined' )
+				&& mw.config.get( 'wgCEUserCanEdit' ) === null )
 			{
 				// reply
 				domElement = $( '<span>', {

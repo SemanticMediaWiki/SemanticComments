@@ -24,6 +24,7 @@
  * This file contains global functions that are called from the SemanticComments extension.
  *
  * @author Benjamin Langguth
+ * @author Peter Grassberger <petertheone@gmail.com>
  */
 if ( !defined( 'MEDIAWIKI' ) ) {
 	die( "This file is part of the SemanticComments extension. It is not a valid entry point.\n" );

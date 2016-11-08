@@ -24,6 +24,7 @@
  * This file contains the implementation of comment creation for SemanticComments.
  *
  * @author Benjamin Langguth
+ * @author Peter Grassberger <petertheone@gmail.com>
  * Date: 07.12.2009
  */
 

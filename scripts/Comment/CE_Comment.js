@@ -356,7 +356,7 @@ function CECommentForm() {
 		this.editCommentName = pageName;
 		elemSelector = '#' + pageName;
 		this.editCommentRelatedComment = $( elemSelector +
-			' .collabComResInfoSuper' ).html();
+			' .collabComResInfoSuperPlain' ).html();
 		if ( this.editMode ) {
 			//already editing. cancel first!
 			return false;

@@ -107,7 +107,8 @@ function cefSetupExtension() {
 		'version' => CE_VERSION,
 		'author'=>array("Patrick Barret","Benjamin Langguth","Thomas Schweitzer"),
 		'url' => 'https://www.mediawiki.org/wiki/Extension:SemanticComments',
-		'description' => 'SemanticComments toolset, eg article comments.'
+		'description' => 'SemanticComments toolset, eg article comments.',
+		'license-name' => 'GPL-2.0+'
 		);
 
 	### Register autocompletion icon ###

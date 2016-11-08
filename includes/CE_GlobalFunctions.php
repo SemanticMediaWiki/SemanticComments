@@ -92,12 +92,16 @@ function cefSetupExtension() {
 	$spns_text = $wgContLang->getNsText(NS_SPECIAL);
 	// register AddHTMLHeader functions for special pages
 	// to include javascript and css files (only on special page requests).
+
+	// maintenance fix from https://www.mediawiki.org/wiki/Topic:R29j2gav38ynedw7
+	if( !defined('DO_MAINTENANCE') ) {
 	$url = $wgRequest->getRequestURL();
-	if(  stripos( $url, $spns_text . ":SemanticComments" ) !== false
-	     || stripos( $url, $spns_text . "%3ASemanticComments" ) !== false ) {
-	   $wgOut->addModules( 'ext.ce.comment.specialpage' );
-	} else {
-	   $wgOut->addModules( 'ext.ce.comment' );
+		if(  stripos( $url, $spns_text . ":SemanticComments" ) !== false
+			 || stripos( $url, $spns_text . "%3ASemanticComments" ) !== false ) {
+		   $wgOut->addModules( 'ext.ce.comment.specialpage' );
+		} else {
+		   $wgOut->addModules( 'ext.ce.comment' );
+		}
 	}
 
 	### credits (see Special:Version) ###

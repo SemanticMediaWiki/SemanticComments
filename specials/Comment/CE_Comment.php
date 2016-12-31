@@ -119,7 +119,8 @@ try{
 				$summary = wfMessage( 'ce_com_create_sum' )->text();
 			}
 			$pageContent = str_replace( '##DATE##', $dateString, $pageContent );
-			$article->doEdit( $pageContent, $summary );
+			$pageContentObject = ContentHandler::makeContent( $pageContent, $title );
+			$article->doEditContent( $pageContentObject, $summary );
 
 			if ( $article->exists() ) {
 				self::updateRelatedArticle( $pageContent );

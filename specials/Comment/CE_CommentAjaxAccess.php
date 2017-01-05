@@ -20,7 +20,7 @@
 /**
  * @file
  * @ingroup CEComment
- * 
+ *
  * This file contains the ajax functions of comment component for Semantic Comments extension.
  */
 
@@ -51,19 +51,19 @@ class CECommentAjax {
 /**
  * @param wikurl etc...
  * @return xml
- * 
+ *
  */
 function cef_comment_createNewPage( $pageName, $pageContent ) {
 
 	$pageName = CECommentUtils::unescape( $pageName );
-	$pageContent = CECommentUtils::unescape( $pageContent );	
+	$pageContent = CECommentUtils::unescape( $pageContent );
 	return CEComment::createComment( $pageName, $pageContent );
 }
 
 function cef_comment_editPage( $pageName, $pageContent) {
 
 	$pageName = CECommentUtils::unescape( $pageName );
-	$pageContent = CECommentUtils::unescape( $pageContent );	
+	$pageContent = CECommentUtils::unescape( $pageContent );
 	return CEComment::createComment( $pageName, $pageContent, true );
 }
 
@@ -81,7 +81,7 @@ function cef_comment_deleteComment( $pageName ) {
 				$title = Title::makeTitle( CE_COMMENT_NS, $title );
 			}
 			$article = new Article( $title );
-			$articleContent = $article->getContent();
+			$articleContent = ContentHandler::getContentText( $article->getPage()->getContent() );
 			$date = new Datetime( null, new DateTimeZone( 'UTC' ) );
 			$articleContent = preg_replace( '/\|CommentContent.*}}/',
 				'|CommentContent=' . $wgUser->getName() . ' ' .
@@ -120,7 +120,7 @@ function cef_comment_fullDeleteComments( $pageNames ) {
 				$title = Title::makeTitle( CE_COMMENT_NS, $title );
 			}
 			$article = new Article( $title );
-			$articleContent = $article->getContent();
+			$articleContent = ContentHandler::getContentText( $article->getPage()->getContent() );
 			$articleDel = $article->doDelete( wfMessage( 'ce_comment_delete_reason' )->text() );
 			$success = true;
 		} catch( Exception $e ) {

@@ -64,16 +64,16 @@ class CECommentDeleteApi extends ApiBase {
 					$title = Title::makeTitle( CE_COMMENT_NS, $title );
 				}
 				$article = new Article( $title );
-				$articleContent = $article->getContent();
+				$articleContentText = ContentHandler::getContentText( $article->getPage()->getContent() );
 				$date = new Datetime( null, new DateTimeZone( 'UTC' ) );
-				$articleContent = preg_replace( '/\|CommentContent.*}}/',
+				$articleContentText = preg_replace( '/\|CommentContent.*}}/',
 						'|CommentContent=' . $wgUser->getName() . ' ' .
 						wfMessage( 'ce_comment_has_deleted' )->text() . ' ' .
 						$date->format( 'r' ) . '|CommentWasDeleted=true|}}',
-						$articleContent
+						$articleContentText
 				);
-				$article->doEdit( $articleContent, wfMessage( 'ce_comment_delete_reason' )->text() );
-				CEComment::updateRelatedArticle( $articleContent );
+				$article->doEditContent( ContentHandler::makeContent( $articleContentText, $title ), wfMessage( 'ce_comment_delete_reason' )->text() );
+				CEComment::updateRelatedArticle( $articleContentText );
 				$result = wfMessage( 'ce_comment_deletion_successful' )->text();
 				wfProfileOut( __METHOD__ . ' [Semantic Comments]' );
 				return CECommentUtils::createXMLResponse( $result, '0', $pageName );
@@ -103,7 +103,7 @@ class CECommentDeleteApi extends ApiBase {
 					$title = Title::makeTitle( CE_COMMENT_NS, $title );
 				}
 				$article = new Article( $title );
-				$articleContent = $article->getContent();
+				$articleContentText = ContentHandler::getContentText( $article->getPage()->getContent() );
 				$articleDel = $article->doDelete( wfMessage( 'ce_comment_delete_reason' )->text() );
 				$success = true;
 			} catch( Exception $e ) {

@@ -20,7 +20,7 @@
 /**
  * @file
  * @ingroup CEComment
- * 
+ *
  * This file contains the implementation of comment creation for SemanticComments.
  *
  * @author Benjamin Langguth
@@ -39,7 +39,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 
 
 class CEComment {
-	
+
 	/* constants */
 	const SUCCESS = 0;
 	const COMMENT_ALREADY_EXISTS = 1;
@@ -61,7 +61,7 @@ class CEComment {
 			$title = Title::makeTitle( CE_COMMENT_NS, $title );
 		}
 		$article = new Article( $title );
-		
+
 		# check if comments are enabled #
 		if ( !isset( $cegEnableComment ) || !$cegEnableComment ) {
 			wfProfileOut( __METHOD__ . ' [SemanticComments]' );
@@ -96,11 +96,11 @@ try{
 				// use the original DATE!!!
 				$comNS = MWNamespace::getCanonicalName( CE_COMMENT_NS );
 				$qandp = SMWQueryProcessor::getQueryAndParamsFromFunctionParams(
-						array($comNS . ":" . $pageName, "?Has comment date"), 
+						array($comNS . ":" . $pageName, "?Has comment date"),
 						SMW_OUTPUT_WIKI, INLINE_QUERY, true
 				);
 				$queryResult = explode( "|", SMWQueryProcessor::getResultFromQuery(
-							$qandp[0], $qandp[1], 
+							$qandp[0], $qandp[1],
 							SMW_OUTPUT_WIKI, INLINE_QUERY )
 				);
 				//just get the first property value and use this
@@ -121,7 +121,8 @@ try{
 				$summary = wfMessage( 'ce_com_create_sum' )->text();
 			}
 			$pageContent = str_replace( '##DATE##', $dateString, $pageContent );
-			$article->doEdit( $pageContent, $summary );
+			$pageContentObject = ContentHandler::makeContent( $pageContent, $title );
+			$article->doEditContent( $pageContentObject, $summary );
 
 			if ( $article->exists() ) {
 				self::updateRelatedArticle( $pageContent );
@@ -140,7 +141,7 @@ try{
 
 	/**
 	 * This function updates the related article if the new/edited/deleted comment has a rating.
-	 * 
+	 *
 	 * @param string $commentContent
 	 */
 	public static function updateRelatedArticle( $commentContent ) {
@@ -150,12 +151,12 @@ try{
 		$find = preg_match('/CommentRelatedArticle=(.*?)\|/', $commentContent, $extract);
 		$relatedArticle = $extract[1];
 		if( $commentHasRating !== ( false || 0 )
-			&& $relatedArticle && $relatedArticle != '' ) 
+			&& $relatedArticle && $relatedArticle != '' )
 		{
 			// update semantic data for the realted article
 			$title = Title::newFromText( $relatedArticle );
 			$article = new Article( $title );
-			$text = $article->getContent();
+			$text = ContentHandler::getContentText( $article->getPage()->getContent() );
 			$options = new ParserOptions;
 			$text = $wgParser->preSaveTransform( $text, $title, $wgUser, $options );
 			$output = $wgParser->parse( $text, $article->mTitle, $options);

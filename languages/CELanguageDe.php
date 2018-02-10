@@ -40,13 +40,13 @@ class CELanguageDe extends CELanguage {
 	);
 
 	protected $mNamespaces = array(
-		CE_COMMENT_NS			=> 'Kommentar',
-		CE_COMMENT_NS_TALK	=> 'Kommentar_talk', #???
+		CE_COMMENT_NS => 'Kommentar',
+		CE_COMMENT_NS_TALK => 'Kommentar_Diskussion',
 	);
 
 	protected $mNamespaceAliases = array(
-		'Kommentar'			=> CE_COMMENT_NS,
-		'Kommentar_talk'	=> CE_COMMENT_NS_TALK, #???
+		'Kommentar' => CE_COMMENT_NS,
+		'Kommentar_talk' => CE_COMMENT_NS_TALK,
 	);
 	
 	protected $mParserFunctions = array(

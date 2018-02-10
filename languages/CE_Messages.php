@@ -69,14 +69,14 @@ $messages['en'] = array(
 
 	/* comment processing */
 	'ce_com_cannot_create'               => 'Can not create comment.',
-	'ce_com_create_sum'                  => 'This comment article was created by Collaboration Extension.',
-	'ce_com_edit_sum'                    => 'This comment article was edited by Collaboration Extension.',
+	'ce_com_create_sum'                  => 'This comment article was created by SemanticComments Extension.',
+	'ce_com_edit_sum'                    => 'This comment article was edited by SemanticComments Extension.',
 	'ce_comment_exists'                  => 'Comment article "$1" already exists.',
 	'ce_com_created'                     => 'Comment article successfully created.',
 	'ce_com_edited'                      => 'Comment article successfully edited.',
 	'ce_com_edit_not_exists'             => 'You tried to edit a non-existing comment. Please check again.',
 	'ce_nothing_deleted'                 => 'No comment deleted.',
-	'ce_comment_delete_reason'           => 'Comment has been deleted via Collaboration GUI.',
+	'ce_comment_delete_reason'           => 'Comment has been deleted via SemanticComments GUI.',
 	'ce_comment_deletion_successful'     => 'Comment has been successfully deleted.',
 	'ce_comment_massdeletion_successful' => 'Comments have been successfully deleted.',
 	'ce_comment_deletion_error'          => 'Comment could not be deleted.',
@@ -129,7 +129,7 @@ $messages['de'] = array(
 	'semanticcomments_desc' => 'SemanticComments',
 	'ce_sp_intro'        => 'Diese Spezialseite erlaubt Ihnen einen schnellen Überblick über die neusten Kommentare in Ihrem Wiki.',
 	'ce_allowed'         => 'Gratulation! CE funktioniert wie erwartet.',
-	'ce_warning'         => 'Collaboration Extension Warnung',
+	'ce_warning'         => 'SemanticComments Warnung',
 	'ce_var_undef'       => 'Folgende Variable wurde nicht richtig gesetzt: "$1". <br/> Bitte prüfen Sie ihre Einstellungen',
 
 	/* comment form */
@@ -137,7 +137,7 @@ $messages['de'] = array(
 	'ce_cf_disabled'        => 'Kommentare sind deaktiviert.',
 	'ce_cf_already_shown'   => 'Das Kommentar-Formular wird auf dieser Seite bereits angezeigt.',
 	'ce_cf_all_not_allowed' => 'Niemand darf aktuell Kommentare eingeben.',
-	'ce_cf_you_not_allowed' => 'Sie dürfen aktuell keine Kommentare eingeben. Bitte melden sich sich an.',
+	'ce_cf_you_not_allowed' => 'Sie dürfen aktuell keine Kommentare eingeben. Bitte melden Sie sich an.',
  
 	/* author */
 	'ce_cf_author' => 'Autor:',
@@ -163,15 +163,15 @@ $messages['de'] = array(
 	'ce_cf_file_upload_link'   => 'Datei hochladen',
 
 	/* comment processing */
-	'ce_com_cannot_create'               => 'Kann Kommentar nicht erstellen.',
-	'ce_com_create_sum'                  => 'Dieser Artikel wurde von der Collaboration Extension erstellt.',
-	'ce_com_edit_sum'                    => 'Dieser Artikel wurde von der Collaboration Extension editiert.',
+	'ce_com_cannot_create'               => 'Kommentar kann nicht erstellt werden.',
+	'ce_com_create_sum'                  => 'Dieser Artikel wurde von der SemanticComments Extension erstellt.',
+	'ce_com_edit_sum'                    => 'Dieser Artikel wurde von der SemanticComments Extension editiert.',
 	'ce_comment_exists'                  => 'Kommentar Artikel "$1" bereits vorhanden.',
 	'ce_com_created'                     => 'Kommentar Artikel erfolgreich erstellt.',
 	'ce_com_edited'                      => 'Kommentar Artikel erfolgreich editiert.',
 	'ce_com_edit_not_exists'             => 'Sie versuchten einen nicht existierenden Artikel zu editieren. Bitte überprüfen Sie dies erneut.',
 	'ce_nothing_deleted'                 => 'Kein Kommentar gelöscht.',
-	'ce_comment_delete_reason'           => 'Kommentar wurde per Collaboration GUI gelöscht.',
+	'ce_comment_delete_reason'           => 'Kommentar wurde per SemanticComments GUI gelöscht.',
 	'ce_comment_deletion_successful'     => 'Kommentar wurde erfolgreich gelöscht.',
 	'ce_comment_massdeletion_successful' => 'Kommentare wurden erfolgreich gelöscht.',
 	'ce_comment_deletion_error'          => 'Kommentar konnte nicht gelöscht werden.',
@@ -221,8 +221,8 @@ $messages['fr'] = array(
 	'semanticcomments'      => 'SemanticComments',
 	'semanticcomments_desc' => 'SemanticComments',
 	'ce_sp_intro'        => 'Cette page spéciale vous donner un rapide aperçu des derniers commentaires publiés.',
-	'ce_allowed'         => 'Félicitation ! L\'extension Collaboration fonctionne correctement !',
-	'ce_warning'         => 'Avertissement de l\'extension Collaboration',
+	'ce_allowed'         => 'Félicitation ! L\'extension SemanticComments fonctionne correctement !',
+	'ce_warning'         => 'Avertissement de l\'extension SemanticComments',
 	'ce_var_undef'       => 'La variable suivante n\'a pas été correctement initialisée: "$1". <br/> Veuillez vérifier vos paramètres.',
 
 	/* comment form */
@@ -255,14 +255,14 @@ $messages['fr'] = array(
 
 	/* comment processing */
 	'ce_com_cannot_create'               => 'Impossible de créer un commentaire.',
-	'ce_com_create_sum'                  => 'Commentaire créé par l\'extension Collaboration.',
-	'ce_com_edit_sum'                    => 'Commentaire modifié par l\'extension Collaboration.',
+	'ce_com_create_sum'                  => 'Commentaire créé par l\'extension SemanticComments.',
+	'ce_com_edit_sum'                    => 'Commentaire modifié par l\'extension SemanticComments.',
 	'ce_comment_exists'                  => 'Le commentaire "$ 1" existe déjà.',
 	'ce_com_created'                     => 'Commentaire créé avec succès.',
 	'ce_com_edited'                      => 'Commentaire modifié avec succès.',
 	'ce_com_edit_not_exists'             => 'Vous avez essayé de modifier un commentaire inexistant. Veuillez ressayer à nouveau.',
 	'ce_nothing_deleted'                 => 'Aucun commentaire supprimé.',
-	'ce_comment_delete_reason'           => 'Commentaire supprimé via l\'interface graphique de l\'extension Collaboration.',
+	'ce_comment_delete_reason'           => 'Commentaire supprimé via l\'interface graphique de l\'extension SemanticComments.',
 	'ce_comment_deletion_successful'     => 'Commentaire supprimé avec succès.',
 	'ce_comment_massdeletion_successful' => 'Commentaires supprimés avec succès.',
 	'ce_comment_deletion_error'          => 'Ce commentaire n\'a pas pu être supprimé.',

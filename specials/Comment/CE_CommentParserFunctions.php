@@ -245,29 +245,29 @@ class CECommentParserFunctions {
 
 		$ratingHTML = '';
 		if( isset($cegEnableRatingForArticles) && $cegEnableRatingForArticles ) {
-			$ratingHTML = XML::openElement('div', array( 'id' => 'collabComFormRating')) .
+			$ratingHTML = Xml::openElement('div', array( 'id' => 'collabComFormRating')) .
 					wfMessage('ce_cf_article_rating')->text() .
 					'<span class="collabComFormGrey">' . '&nbsp;' .
 						wfMessage('ce_cf_article_rating2')->text() .
 					'</span>' . ":" .
-					XML::openElement('span', array( 'id' => 'collabComFormRadiobuttons' )) .
-						XML::Element('img', array( 'id' => 'collabComFormRating1',
+					Xml::openElement('span', array( 'id' => 'collabComFormRadiobuttons' )) .
+						Xml::Element('img', array( 'id' => 'collabComFormRating1',
 							'class' => 'collabComFormRatingImg',
 							'src' => $cegScriptPath . '/skins/Comment/icons/bad_inactive.png',
 							'title' => $ratingTitleBad,
 							'onClick' => 'ceCommentForm.switchRating(\'#collabComFormRating1\',-1);' )) .
-						XML::Element('img', array( 'id' => 'collabComFormRating2',
+						Xml::Element('img', array( 'id' => 'collabComFormRating2',
 							'class' => 'collabComFormRatingImg',
 							'src' => $cegScriptPath . '/skins/Comment/icons/neutral_inactive.png',
 							'title' => $ratingTitleNeutral,
 							'onClick' => 'ceCommentForm.switchRating(\'#collabComFormRating2\',0);' )) .
-						XML::Element('img', array( 'id' => 'collabComFormRating3',
+						Xml::Element('img', array( 'id' => 'collabComFormRating3',
 							'class' => 'collabComFormRatingImg',
 							'title' => $ratingTitleGood,
 							'src' => $cegScriptPath . '/skins/Comment/icons/good_inactive.png',
 							'onClick' => 'ceCommentForm.switchRating(\'#collabComFormRating3\',1);' )) .
-					XML::closeElement('span') .
-				XML::closeElement('div');
+					Xml::closeElement('span') .
+				Xml::closeElement('div');
 
 			global $cegAllowEmptyComments;
 			$script = '<script type="'.$wgJsMimeType.'">/*<![CDATA[*/'.
@@ -285,10 +285,10 @@ class CECommentParserFunctions {
 		// file attachments
 		$fileAttachmentHTML = '';
 		if( isset( $cegEnableFileAttachments ) && $cegEnableFileAttachments ) {
-			$fileAttachmentHTML = XML::openElement( 'div',
+			$fileAttachmentHTML = Xml::openElement( 'div',
 				array( 'id' => 'collabComFormFileAttachHelp' ) ) .
-				wfMessage( 'ce_cf_file_attach' )->text() . XML::closeElement( 'div' ) .
-				XML::input( 'collabComFormFileAttach', '', '',
+				wfMessage( 'ce_cf_file_attach' )->text() . Xml::closeElement( 'div' ) .
+				Xml::input( 'collabComFormFileAttach', '', '',
 					array( 'id' => 'collabComFormFileAttach',
 						'class' => 'wickEnabled',
 						'pastens' => 'true'
@@ -302,30 +302,30 @@ class CECommentParserFunctions {
 				$rmlWikiText = '{{#rml:' . wfMessage('ce_cf_file_upload_text')->text() . '|' .
 					wfMessage('ce_cf_file_upload_link')->text() . '|sfInputID=collabComFormFileAttach&sfDelimiter=' .
 					$cegDefaultDelimiter . '}}';
-				$fileAttachmentHTML .= XML::openElement( 'span', array(
+				$fileAttachmentHTML .= Xml::openElement( 'span', array(
 						'id' => 'collabComFormFileAttachLink' ) ) .
 					$wgParser->recursiveTagParse( $rmlWikiText ) .
-					XML::closeElement( 'span' );
+					Xml::closeElement( 'span' );
 			}
 		}
-		$html = XML::openElement( 'div', array( 'id' => 'collabComFormHeader' )) .
-			XML::openElement( 'form', array( 'id' => 'collabComForm',
+		$html = Xml::openElement( 'div', array( 'id' => 'collabComFormHeader' )) .
+			Xml::openElement( 'form', array( 'id' => 'collabComForm',
 			'style' => 'display:none',
 			'onSubmit' => 'return ceCommentForm.processForm()' ) ) .
-			XML::openElement('div', array('id' => 'collabComFormUserIcon')) .
-				XML::Element( 'img', array( 'id' => 'collabComFormUserImg',
+			Xml::openElement('div', array('id' => 'collabComFormUserIcon')) .
+				Xml::Element( 'img', array( 'id' => 'collabComFormUserImg',
 					'src' => $userImgSrc? $userImgSrc : '' )) .
-			XML::closeElement('div') .
-			XML::openElement('div', array('id' => 'collabComFormRight')) .
-				XML::openElement( 'div', array( 'id' => 'collabComFormUser') ) .
+			Xml::closeElement('div') .
+			Xml::openElement('div', array('id' => 'collabComFormRight')) .
+				Xml::openElement( 'div', array( 'id' => 'collabComFormUser') ) .
 					'<span class="userkey">' .wfMessage('ce_cf_author')->escaped() . '</span>' .
 					'<span class="uservalue">' .
 						$parser->recursiveTagParse('[['.$wgUser->getUserPage()->getPrefixedText().'|'.$currentUser.']]') . '</span>' .
-				XML::closeElement('div') .
+				Xml::closeElement('div') .
 				$ratingHTML .
-				XML::openElement('div', array( 'id' => 'collabComFormHelp')) .
+				Xml::openElement('div', array( 'id' => 'collabComFormHelp')) .
 					wfMessage('ce_cf_comment')->escaped() .
-					XML::openElement('span', array('class' => 'red')) .
+					Xml::openElement('span', array('class' => 'red')) .
 						'*' .
 					XML::closeElement('span') .
 					XML::openElement('span') . ':' . XML::closeElement('span') .
@@ -335,21 +335,21 @@ class CECommentParserFunctions {
 					'onKeyDown' => 'ceCommentForm.textareaKeyPressed();')) .
 				XML::closeElement('textarea') .
 				$fileAttachmentHTML .
-				XML::openElement('div', array( 'id' => 'collabComFormButtons' ) ) .
-			XML::submitButton( wfMessage( 'ce_cf_submit_button_name' )->text(),
+				Xml::openElement('div', array( 'id' => 'collabComFormButtons' ) ) .
+			Xml::submitButton( wfMessage( 'ce_cf_submit_button_name' )->text(),
 				array ( 'id' => $submitButtonID) ) .
-			XML::element( 'span', array(
+			Xml::element( 'span', array(
 				'id' => $resetButtonID,
 				'onClick' => 'ceCommentForm.formReset();')) .
 				' | ' . wfMessage( 'ce_cf_reset_button_name' )->escaped() .
-			XML::closeElement('span') .
-			XML::closeElement('div') . //end collabComFormRight
-			XML::closeElement('div') . //end collabComFormButtons
-			XML::closeElement('form') .
-			XML::openElement('div', array('id' => 'collabComFormMessage',
+			Xml::closeElement('span') .
+			Xml::closeElement('div') . //end collabComFormRight
+			Xml::closeElement('div') . //end collabComFormButtons
+			Xml::closeElement('form') .
+			Xml::openElement('div', array('id' => 'collabComFormMessage',
 				'style' => 'display:none')) .
-			XML::closeElement('div') .
-			XML::closeElement('div');
+			Xml::closeElement('div') .
+			Xml::closeElement('div');
 
 		self::$mInstance->mCommentFormDisplayed = true;
 

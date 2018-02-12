@@ -33,7 +33,7 @@ var bind = function(context, method) {return function() {return method.apply(con
  * The CommentForm "class"
  *
  */
-( function( $ ) {
+( function( $, mw ) {
 
 
 function CECommentForm() {
@@ -108,7 +108,7 @@ function CECommentForm() {
 			// hide possibly shown message div
 			$( '#collabComFormMessage' ).hide( 'slow' );
 		}
-		if ( wgCEAllowEmptyComments === true && this.textareaIsDefault ) {
+		if ( mw.config.get( 'wgCEAllowEmptyComments' ) === true && this.textareaIsDefault ) {
 			// If we allow Empty Comments, set the field to empty instead of the default
 			textArea = '';
 			if ( this.ratingValue === null ) {
@@ -133,8 +133,8 @@ function CECommentForm() {
 		var fileAttachString = '|AttachedArticles=' + fileAttach;
 
 		var userNameString = '';
-		if ( wgUserName !== null && wgCEUserNS !== null ) {
-			userNameString = '|CommentPerson=' + wgCEUserNS + ':' + wgUserName;
+		if ( mw.config.get( 'wgUserName' ) !== null && mw.config.get( 'wgCEUserNS' ) !== null ) {
+			userNameString = '|CommentPerson=' + mw.config.get( 'wgCEUserNS' ) + ':' + mw.config.get( 'wgUserName' );
 		} else {
 			userNameString = '|CommentPerson=';
 		}
@@ -155,12 +155,18 @@ function CECommentForm() {
 
 		this.currentPageName = escape( pageName );
 		this.currentPageContent = escape( pageContent );
-		var jqxhr = $.get( mw.util.wikiScript(), {
-				action: 'ajax',
-				rs: 'cef_comment_createNewPage',
-				rsargs: [this.currentPageName, this.currentPageContent]	},
-				this.processFormCallback.bindToFunction( this )
-				);
+		var jqxhr = $.ajax( {
+			method: 'GET',
+			url: mw.util.wikiScript( 'api' ),
+			data: {
+				'action': 'commentsCreatePage',
+				'title': this.currentPageName,
+				'content': this.currentPageContent,
+				'format': 'json'
+			},
+			dataType: 'json',
+			success: this.processFormCallback.bindToFunction( this )
+		} );
 		return false;
 	};
 
@@ -170,7 +176,7 @@ function CECommentForm() {
 	 */
 	this.processFormCallback = function( data, textStatus, jqXHR) {
 		/*alert('cef_comment_createNewPage\nstatus='+textStatus+'\n'+data);*/
-		var resultDOM = this.XMLResult = SemanticCommentsXMLTools.createDocumentFromString( data );
+		var resultDOM = this.XMLResult = SemanticCommentsXMLTools.createDocumentFromString( data.data );
 		var valueEls= resultDOM.getElementsByTagName( 'value' );
 		var valueEl = valueEls ? valueEls[0] : null;
 		var htmlmsgs= resultDOM.getElementsByTagName( 'message' );
@@ -266,12 +272,18 @@ function CECommentForm() {
 			this.pendingIndicatorDel = new CPendingIndicator( $( '#collabComDelPending' ) );
 		}
 		this.pendingIndicatorDel.show();
-		var jqxhr = $.get( mw.util.wikiScript(),
-				{action: 'ajax',
-				rs: fullDelete ? 'cef_comment_fullDeleteComments' : 'cef_comment_deleteComment',
-				rsargs: [escape( commentsToDelete )] },
-				this.deleteCommentCallback.bindToFunction( this )
-				);
+		var jqxhr = $.ajax( {
+			method: 'GET',
+			url: mw.util.wikiScript( 'api' ),
+			data: {
+				'action': 'commentsDelete',
+				'commentsToDelete': escape( commentsToDelete ),
+				'fullDelete': fullDelete,
+				'format': 'json'
+			},
+			dataType: 'json',
+			success: this.deleteCommentCallback.bindToFunction( this )
+		} );
 	};
 
 	/**
@@ -279,7 +291,7 @@ function CECommentForm() {
 	 */
 	this.deleteCommentCallback = function( data, textStatus, jqXHR) {
 		/*alert('cef_comment_deleteComment\nstatus='+textStatus+'\n'+data);*/
-		var resultDOM = this.XMLResult = SemanticCommentsXMLTools.createDocumentFromString( data );
+		var resultDOM = this.XMLResult = SemanticCommentsXMLTools.createDocumentFromString( data.data );
 		var valueEl = resultDOM.getElementsByTagName( 'value' )[0];
 		var htmlmsg = resultDOM.getElementsByTagName( 'message' )[0].firstChild.nodeValue;
 		var page = resultDOM.getElementsByTagName( 'article' )[0].firstChild.nodeValue;
@@ -344,7 +356,7 @@ function CECommentForm() {
 		this.editCommentName = pageName;
 		elemSelector = '#' + pageName;
 		this.editCommentRelatedComment = $( elemSelector +
-			' .collabComResInfoSuper' ).html();
+			' .collabComResInfoSuperPlain' ).html();
 		if ( this.editMode ) {
 			//already editing. cancel first!
 			return false;
@@ -362,7 +374,7 @@ function CECommentForm() {
 			'width', '85%'
 		);
 		// rating only if rating is enabled
-		if ( typeof wgCEEnableRating !== 'undefined' ) {
+		if ( mw.config.get( 'wgCEEnableRating' ) !== null ) {
 			ratingIconSrc = $( elemSelector
 				+ ' .collabComResRatingIcon img' ).attr( 'src' );
 			if ( ratingIconSrc ) {
@@ -401,7 +413,7 @@ function CECommentForm() {
 			$( '<img>', {
 				'id' : 'collabComEditFormRating1',
 				'class' : 'collabComEditFormRatingImg',
-				'src' : wgCEScriptPath + '/skins/Comment/icons/bad_inactive.png',
+				'src' : mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/bad_inactive.png',
 				'click' :  function() {
 					ceCommentForm.switchEditRating( '#collabComEditFormRating1', -1 );
 				}
@@ -409,7 +421,7 @@ function CECommentForm() {
 			$( '<img>', {
 				'id' : 'collabComEditFormRating2',
 				'class' : 'collabComEditFormRatingImg',
-				'src' : wgCEScriptPath + '/skins/Comment/icons/neutral_inactive.png',
+				'src' : mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/neutral_inactive.png',
 				'click' :  function() {
 					ceCommentForm.switchEditRating( '#collabComEditFormRating2', 0 );
 				}
@@ -417,7 +429,7 @@ function CECommentForm() {
 			$( '<img>', {
 				'id' : 'collabComEditFormRating3',
 				'class' : 'collabComEditFormRatingImg',
-				'src' : wgCEScriptPath + '/skins/Comment/icons/good_inactive.png',
+				'src' : mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/good_inactive.png',
 				'click' :  function() {
 					ceCommentForm.switchEditRating( '#collabComEditFormRating3', 1 );
 				}
@@ -433,13 +445,13 @@ function CECommentForm() {
 		})
 
 		// file attachments: create input element
-		if ( typeof wgCEEnableAttachments !== undefined ) {
+		if ( mw.config.get( 'wgCEEnableAttachments' ) !== null ) {
 			tmp = document.createElement( 'input' );
 			tmp.setAttribute( 'type', 'text' );
 			fileAttachField = $( tmp ).addClass( 'wickEnabled' )
 				.attr( { 'pastens' : 'true', 'id' : 'collabComEditFormFileAttach' } )
 				.val( $( elemSelector + ' .collabComResFileAttachSaved' ).html() );
-			if ( typeof wgCEEditUploadURL !== 'undefined' ) {
+			if ( mw.config.get( 'wgCEEditUploadURL' ) !== null ) {
 				fileAttachSpan = $( '<span>', {
 					'id' : 'collabComEditFormFileAttachLink'
 				});
@@ -447,7 +459,7 @@ function CECommentForm() {
 					'id' : 'collabComEditFormFileAttach',
 					'class' : 'rmAlink',
 					'title' : 'Upload file',
-					'href' : wgCEEditUploadURL,
+					'href' : mw.config.get( 'wgCEEditUploadURL' ),
 					'text' : 'Upload file'
 				}).appendTo( fileAttachSpan );
 			}
@@ -539,7 +551,7 @@ function CECommentForm() {
 		} else {
 			commentPerson = commentPerson.split( ':' );
 			commentPerson = commentPerson.pop();
-			commentPerson = '|CommentPerson=' + wgCEUserNS + ':' + commentPerson;
+			commentPerson = '|CommentPerson=' + mw.config.get( 'wgCEUserNS' ) + ':' + commentPerson;
 		}
 		var relatedComment = '';
 		if ( this.editCommentRelatedComment !== null
@@ -548,8 +560,8 @@ function CECommentForm() {
 			relatedComment = '|CommentRelatedComment=' + this.editCommentRelatedComment;
 		}
 		var editorString = '';
-		if ( mw.config.get( 'wgUserName' ) !== null && wgCEUserNS !== null ) {
-			editorString = '|CommentLastEditor=' + wgCEUserNS + ':' + mw.config.get( 'wgUserName' );
+		if ( mw.config.get( 'wgUserName' ) !== null && mw.config.get( 'wgCEUserNS' ) !== null ) {
+			editorString = '|CommentLastEditor=' + mw.config.get( 'wgCEUserNS' ) + ':' + mw.config.get( 'wgUserName' );
 		} else {
 			editorString = '|CommentLastEditor=';
 		}
@@ -572,12 +584,19 @@ function CECommentForm() {
 		this.currentPageContent = escape( pageContent );
 		//do ajax call
 		/*alert('cef_comment_editPage: '+this.currentPageName+'\n'+ this.currentPageContent);*/
-		var jqxhr = $.get( mw.util.wikiScript(), {
-			action: 'ajax',
-			rs: 'cef_comment_editPage',
-			rsargs:[this.currentPageName, this.currentPageContent] },
-			this.editExistingCommentCallback.bindToFunction( this )
-			);
+		var jqxhr = $.ajax( {
+			method: 'GET',
+			url: mw.util.wikiScript( 'api' ),
+			data: {
+				'action': 'commentsCreatePage',
+				'title': this.currentPageName,
+				'content': this.currentPageContent,
+				'edit': true,
+				'format': 'json'
+			},
+			dataType: 'json',
+			success: this.editExistingCommentCallback.bindToFunction( this )
+		} );
 		return true;
 	};
 
@@ -588,7 +607,7 @@ function CECommentForm() {
 	this.editExistingCommentCallback = function( data, textStatus, jqXHR) {
 		/*alert('cef_comment_editPage\nstatus='+textStatus+'\n'+data);*/
 		var elemSelector = '#' + this.editCommentName;
-		var resultDOM = this.XMLResult = SemanticCommentsXMLTools.createDocumentFromString( data );
+		var resultDOM = this.XMLResult = SemanticCommentsXMLTools.createDocumentFromString( data.data );
 		var valueEl = resultDOM.getElementsByTagName( 'value' )[0];
 		var htmlmsg = valueEl ? resultDOM.getElementsByTagName( 'message' )[0].firstChild.nodeValue
 				: "<em>system problem</em>";
@@ -753,7 +772,7 @@ function CECommentForm() {
 	 */
 	this.switchRating = function( htmlid, ratingValue ) {
 		var ratingHTML = $( htmlid );
-		var ratingImg = wgCEScriptPath + '/skins/Comment/icons/';
+		var ratingImg = mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/';
 		var oldhtmlid = '#collabComFormRating' + String( this.ratingValue + 2 );
 		$( oldhtmlid ).attr( 'src', $( oldhtmlid ).attr(
 			'src' ).replace( /_active/g, '_inactive' )
@@ -780,7 +799,7 @@ function CECommentForm() {
 	 */
 	this.switchEditRating = function( htmlid, ratingValue ) {
 		var ratingHTML = $( htmlid );
-		var ratingImg = wgCEScriptPath + '/skins/Comment/icons/';
+		var ratingImg = mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/';
 		var oldhtmlid = '#collabComEditFormRating' + String( this.editRatingValue + 2 );
 		$( oldhtmlid ).attr( 'src', $( oldhtmlid ).attr(
 			'src' ).replace( /_active/g, '_inactive' )
@@ -960,9 +979,9 @@ function CECommentForm() {
 		}
 		var avgRating = 0;
 		$( '.collabComResRatingIcon' ).each( function() {
-			if ( $( 'img', this ).attr( 'src' ).indexOf( 'Bad' ) >=0 ) {
+			if ( $( 'img', this ).attr( 'src' ).indexOf( 'Bad' ) >= 0 ) {
 				avgRating--;
-			} else if ( $( 'img', this ).attr( 'src' ).indexOf( 'Good' ) >=0 ) {
+			} else if ( $( 'img', this ).attr( 'src' ).indexOf( 'Good' ) >= 0 ) {
 				avgRating++;
 			}
 		});
@@ -978,9 +997,8 @@ function CECommentForm() {
 		var expandedHead = this.addHeaderText();
 		if ( expandedHead === true ) {
 			this.addCommentToggler();
-			if ( typeof wgCECommentsDisabled === 'undefined'
-				|| wgCECommentsDisabled === false )
-			{
+			var commentsDisabled = mw.config.get( 'wgCECommentsDisabled' );
+			if ( commentsDisabled === null || commentsDisabled === false ) {
 				this.addFormToggler( true ); //remove header
 			}
 			this.addHeaderView();
@@ -1051,7 +1069,7 @@ function CECommentForm() {
 	 */
 	this.addFormToggler = function( withPipe ) {
 		var toggleSpan ='';
-		if ( typeof wgCEUserCanEdit !== 'undefined' && wgCEUserCanEdit === false ) {
+		if ( mw.config.get( 'wgCEUserCanEdit' ) !== null && mw.config.get( 'wgCEUserCanEdit' ) === false ) {
 			toggleSpan = $( '<span>', {
 				'id' : 'collabComFormToggle',
 				'style' : 'color: grey; cursor: default;',
@@ -1158,7 +1176,7 @@ function CECommentForm() {
 				'class' : 'collabComInternRatingIcon'
 			});
 			var ratingIcon = $( '<img>' );
-			var ratingIconSrc = wgCEScriptPath + '/skins/Comment/icons/';
+			var ratingIconSrc = mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/';
 			if ( this.averageRating < -0.33 ) {
 				$( ratingIcon ).attr( 'src', ratingIconSrc + 'bad_active.png' );
 			} else if ( this.averageRating >= -0.33 && this.averageRating <= 0.33 ) {
@@ -1260,9 +1278,8 @@ function CECommentForm() {
 	 *
 	 */
 	this.controlFullDeleteOptions = function( overlay, overlayNum, commentID ) {
-		if ( typeof wgCEEnableFullDeletion !== 'undefined' && this.currentView === 0
-			&& ( typeof wgCEUserIsSysop !== 'undefined'
-			&& wgCEUserIsSysop !== null && wgCEUserIsSysop !== false ) )
+		if ( mw.config.get( 'wgCEEnableFullDeletion' ) !== null && this.currentView === 0
+			&& mw.config.get( 'wgCEUserIsSysop' ) !== null && mw.config.get( 'wgCEUserIsSysop' ) !== false )
 		{
 			var moooo = $( '.ceOverlayFullDeleteDiv', $( '#overlay_' + overlayNum ) ).show();
 		} else {
@@ -1276,11 +1293,11 @@ function CECommentForm() {
 	 */
 	this.preloadImages = function() {
 		var preloadImages = new Array();
-		preloadImages[0] = wgCEScriptPath + '/skins/Comment/icons/good_active.png';
-		preloadImages[1] = wgCEScriptPath + '/skins/Comment/icons/neutral_active.png';
-		preloadImages[2] = wgCEScriptPath + '/skins/Comment/icons/bad_active.png';
-		preloadImages[3] = wgCEScriptPath + '/skins/Comment/icons/Edit_button2_Active.png';
-		preloadImages[4] = wgCEScriptPath + '/skins/Comment/icons/DeletedComment.png';
+		preloadImages[0] = mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/good_active.png';
+		preloadImages[1] = mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/neutral_active.png';
+		preloadImages[2] = mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/bad_active.png';
+		preloadImages[3] = mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/Edit_button2_Active.png';
+		preloadImages[4] = mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/DeletedComment.png';
 		for ( i = 0; i < preloadImages.length; i++ ) {
 			var preloadImage = new Image();
 			preloadImage.src = preloadImages[i];
@@ -1317,7 +1334,7 @@ $(document).ready(
 			if ( resComDeleted.html() === 'true' ) {
 				$( '.collabComResText', resCom ).addClass( 'collabComDeleted' );
 				$( '.collabComResPerson img', resCom ).attr(
-					'src', wgCEScriptPath + '/skins/Comment/icons/DeletedComment.png'
+					'src', mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/DeletedComment.png'
 				);
 				$( '.collabComResRating', resCom ).remove();
 				// this comment has been marked as deleted -> step out
@@ -1339,8 +1356,7 @@ $(document).ready(
 				commentPerson = commentPerson.split( ':' );
 				commentPerson = commentPerson.pop();
 			}
-			if ( ( typeof wgCEUserIsSysop !== 'undefined'
-				&& wgCEUserIsSysop !== null && wgCEUserIsSysop !== false )
+			if ( ( mw.config.get( 'wgCEUserIsSysop' ) !== null && mw.config.get( 'wgCEUserIsSysop' ) !== false )
 				|| (mw.config.get( 'wgUserName' ) !== null
 				&& commentPerson === mw.config.get( 'wgUserName' ) ) )
 			{
@@ -1357,13 +1373,13 @@ $(document).ready(
 				});
 				$( '<img>', {
 					'class' : 'collabComDeleteImg',
-					'src' : wgCEScriptPath + '/skins/Comment/icons/Delete_button.png'
+					'src' : mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/Delete_button.png'
 				}).appendTo( domElement );
 				$( '.collabComResDate', resCom ).after( domElement );
 				$( '#collabComResults' ).after( overlayDiv );
 
-				if ( typeof wgCECommentsDisabled === 'undefined'
-					|| wgCECommentsDisabled === false )
+				if ( mw.config.get( 'wgCECommentsDisabled' ) === null
+					|| mw.config.get( 'wgCECommentsDisabled' ) === false )
 				{
 					// edit
 					domElement = $( '<span>', {
@@ -1375,7 +1391,7 @@ $(document).ready(
 					});
 					$( '<img>', {
 						'class' : 'collabComEditImg',
-						'src' : wgCEScriptPath + '/skins/Comment/icons/Edit_button2.png'
+						'src' : mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/Edit_button2.png'
 					}).appendTo( domElement );
 					$( '.collabComResDate', resCom ).after( domElement );
 					// cancel edit
@@ -1388,15 +1404,15 @@ $(document).ready(
 					});
 					$( '<img>', {
 						'class' : 'collabComEditCancelImg',
-						'src' : wgCEScriptPath + '/skins/Comment/icons/Edit_button2_Active.png'
+						'src' : mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/Edit_button2_Active.png'
 					}).appendTo( domElement );
 					$( '.collabComResDate', resCom ).after( domElement );
 					domElement.hide();
 				}
 			}
-			if ( ( typeof wgCECommentsDisabled === 'undefined'
-				|| wgCECommentsDisabled === false )
-				&& typeof wgCEUserCanEdit === 'undefined' )
+			if ( ( mw.config.get( 'wgCECommentsDisabled' ) === null
+				|| mw.config.get( 'wgCECommentsDisabled' ) === false )
+				&& mw.config.get( 'wgCEUserCanEdit' ) === null )
 			{
 				// reply
 				domElement = $( '<span>', {
@@ -1410,7 +1426,7 @@ $(document).ready(
 
 				$( '<img>', {
 					'class' : 'collabComReplyImg',
-					'src' : wgCEScriptPath + '/skins/Comment/icons/Reply_Comment.png'
+					'src' : mw.config.get( 'wgCEScriptPath' ) + '/skins/Comment/icons/Reply_Comment.png'
 				}).appendTo( domElement );
 			}
 			return true;
@@ -1427,7 +1443,7 @@ $(document).ready(
 				var commentResults = $( '#collabComResults' );
 				var newComToggleText = '';
 				// handling default visibillity of comments
-				if ( !wgCEShowCommentsExpanded ) {
+				if ( !mw.config.get( 'wgCEShowCommentsExpanded' ) ) {
 					newComToggleText = ceLanguage.getMessage( 'ce_com_show' );
 					commentResults.hide();
 					//hide "Add" and "View"
@@ -1583,5 +1599,5 @@ SemanticCommentsXMLTools.createDocumentFromString = function( xmlText ) {
 	}
 	return xmlDoc;
 }
-})( jQuery );
+})( jQuery, window.mediaWiki );
 

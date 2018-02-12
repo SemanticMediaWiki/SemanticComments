@@ -26,10 +26,6 @@
 			closeOnEsc: true,			
 			closeSpeed: 'fast',
 			effect: 'default',
-			
-			// since 1.2. fixed positioning not supported by IE6
-			fixed: !$.browser.msie || $.browser.version > 6, 
-			
 			left: 'center',		
 			load: false, // 1.2
 			mask: null,  
@@ -53,14 +49,9 @@
 		function(pos, onLoad) {
 			
 			var conf = this.getConf(),
-				 w = $(window);				 
+				 w = $(window);
 				
-			if (!conf.fixed)  {
-				pos.top += w.scrollTop();
-				pos.left += w.scrollLeft();
-			} 
-				
-			pos.position = conf.fixed ? 'fixed' : 'absolute';
+			pos.position = 'fixed';
 			this.getOverlay().css(pos).fadeIn(conf.speed, onLoad); 
 			
 		}, function(onClose) {

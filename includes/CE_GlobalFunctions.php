@@ -32,8 +32,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 
 /**
  * Switch on SemanticComments features. This function must be called in
- * LocalSettings.php after CE_Initialize.php was included and default values
- * that are defined there have been modified.
+ * LocalSettings.php.
  * For readability, this is the only global function that does not adhere to the
  * naming conventions.
  *

@@ -17,8 +17,6 @@
  *
  */
 
-use SMW\MediaWiki\Api\ApiRequestParameterFormatter;
-
 /**
  * @file
  * @ingroup SemanticComments

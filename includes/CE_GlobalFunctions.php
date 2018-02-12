@@ -24,6 +24,7 @@
  * This file contains global functions that are called from the SemanticComments extension.
  *
  * @author Benjamin Langguth
+ * @author Peter Grassberger <petertheone@gmail.com>
  */
 if ( !defined( 'MEDIAWIKI' ) ) {
 	die( "This file is part of the SemanticComments extension. It is not a valid entry point.\n" );
@@ -43,7 +44,7 @@ function enableSemanticComments() {
 	wfProfileIn( __METHOD__ . ' [SemanticComments]' );
 	global $cegIP, $cegEnableSemanticComments,  $cegEnableComment,
 		$wgExtensionMessagesFiles, $wgExtensionFunctions,
-		$wgAutoloadClasses, $wgHooks;
+		$wgAutoloadClasses, $wgHooks, $wgAPIModules;
 
 	require_once($cegIP . '/specials/Comment/CE_CommentParserFunctions.php');
 
@@ -59,7 +60,11 @@ function enableSemanticComments() {
 	//--- Autoloading for exception classes ---
 	$wgAutoloadClasses['CEException'] = $cegIP . '/exeptions/CE_Exception.php';
 
-	require_once($cegIP . '/specials/Comment/CE_CommentAjaxAccess.php');
+	$wgAutoloadClasses['CECommentCreatePageApi'] = $cegIP . '/api/CE_CommentCreatePageApi.php';
+	$wgAPIModules['commentsCreatePage'] = '\CECommentCreatePageApi';
+
+	$wgAutoloadClasses['CECommentDeleteApi'] = $cegIP . '/api/CE_CommentDeleteApi.php';
+	$wgAPIModules['commentsDelete'] = '\CECommentDeleteApi';
 
 	$wgAutoloadClasses['CECommentSpecial'] = $cegIP . '/specials/Comment/CE_CommentSpecial.php';
 
@@ -88,12 +93,16 @@ function cefSetupExtension() {
 	$spns_text = $wgContLang->getNsText(NS_SPECIAL);
 	// register AddHTMLHeader functions for special pages
 	// to include javascript and css files (only on special page requests).
+
+	// maintenance fix from https://www.mediawiki.org/wiki/Topic:R29j2gav38ynedw7
+	if( !defined('DO_MAINTENANCE') ) {
 	$url = $wgRequest->getRequestURL();
-	if(  stripos( $url, $spns_text . ":SemanticComments" ) !== false
-	     || stripos( $url, $spns_text . "%3ASemanticComments" ) !== false ) {
-	   $wgOut->addModules( 'ext.ce.comment.specialpage' );
-	} else {
-	   $wgOut->addModules( 'ext.ce.comment' );
+		if(  stripos( $url, $spns_text . ":SemanticComments" ) !== false
+			 || stripos( $url, $spns_text . "%3ASemanticComments" ) !== false ) {
+		   $wgOut->addModules( 'ext.ce.comment.specialpage' );
+		} else {
+		   $wgOut->addModules( 'ext.ce.comment' );
+		}
 	}
 
 	### credits (see Special:Version) ###
@@ -103,7 +112,8 @@ function cefSetupExtension() {
 		'version' => CE_VERSION,
 		'author'=>array("Patrick Barret","Benjamin Langguth","Thomas Schweitzer"),
 		'url' => 'https://www.mediawiki.org/wiki/Extension:SemanticComments',
-		'description' => 'SemanticComments toolset, eg article comments.'
+		'description' => 'SemanticComments toolset, eg article comments.',
+		'license-name' => 'GPL-2.0+'
 		);
 
 	### Register autocompletion icon ###

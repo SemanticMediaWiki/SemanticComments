@@ -332,7 +332,6 @@ class CECommentParserFunctions {
 				XML::closeElement('div') .
 				XML::openElement('textarea', array( 'id' => 'collabComFormTextarea',
 					'rows' => '5', 'placeholder' => $encPreComment,
-					'onClick' => 'ceCommentForm.selectTextarea();',
 					'onKeyDown' => 'ceCommentForm.textareaKeyPressed();')) .
 				XML::closeElement('textarea') .
 				$fileAttachmentHTML .

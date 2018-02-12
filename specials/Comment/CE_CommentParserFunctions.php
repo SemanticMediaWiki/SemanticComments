@@ -327,15 +327,13 @@ class CECommentParserFunctions {
 					wfMessage('ce_cf_comment')->escaped() .
 					Xml::openElement('span', array('class' => 'red')) .
 						'*' .
-					Xml::closeElement('span') .
-					Xml::openElement('span') . ':' . Xml::closeElement('span') .
-				Xml::closeElement('div') .
-				Xml::openElement('textarea', array( 'id' => 'collabComFormTextarea',
-					'rows' => '5', 'defaultValue' => $encPreComment,
-					'onClick' => 'ceCommentForm.selectTextarea();',
+					XML::closeElement('span') .
+					XML::openElement('span') . ':' . XML::closeElement('span') .
+				XML::closeElement('div') .
+				XML::openElement('textarea', array( 'id' => 'collabComFormTextarea',
+					'rows' => '5', 'placeholder' => $encPreComment,
 					'onKeyDown' => 'ceCommentForm.textareaKeyPressed();')) .
-				$encPreComment .
-				Xml::closeElement('textarea') .
+				XML::closeElement('textarea') .
 				$fileAttachmentHTML .
 				Xml::openElement('div', array( 'id' => 'collabComFormButtons' ) ) .
 			Xml::submitButton( wfMessage( 'ce_cf_submit_button_name' )->text(),

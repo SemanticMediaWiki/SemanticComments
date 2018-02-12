@@ -761,16 +761,6 @@ function CECommentForm() {
 	};
 
 	/**
-	 * onClick event function for textarea
-	 */
-	this.selectTextarea = function() {
-		//check if we still have the form default in here
-		if ( this.textareaIsDefault ) {
-			$( '#collabComFormTextarea' ).select();
-		}
-	};
-
-	/**
 	 * Disable the onClick function for textarea
 	 */
 	this.textareaKeyPressed = function() {

@@ -106,14 +106,21 @@ function cefSetupExtension() {
 
 	### credits (see Special:Version) ###
 	$wgExtensionCredits['semantic'][]= array(
-		'path'           => __FILE__,
+		'path' => __FILE__,
 		'name' => 'SemanticComments',
 		'version' => CE_VERSION,
-		'author'=>array("Patrick Barret","Benjamin Langguth","Thomas Schweitzer"),
+		'author' => array(
+			'Patrick Barret',
+			'Benjamin Langguth',
+			'Thomas Schweitzer',
+			'John McClure',
+			'Peter Grassberger',
+			'...'
+		),
 		'url' => 'https://www.mediawiki.org/wiki/Extension:SemanticComments',
-		'description' => 'SemanticComments toolset, eg article comments.',
+		'description' => 'Allows to display and manage comments and replies that are attached to any page',
 		'license-name' => 'GPL-2.0+'
-		);
+	);
 
 	### Register autocompletion icon ###
 	$wgHooks['smwhACNamespaceMappings'][] = 'cefRegisterACIcon';

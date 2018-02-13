@@ -119,7 +119,7 @@ function cefSetupExtension() {
 		),
 		'url' => 'https://www.mediawiki.org/wiki/Extension:SemanticComments',
 		'description' => 'Allows to display and manage comments and replies that are attached to any page',
-		'license-name' => 'GPL-2.0+'
+		'license-name' => 'GPL-2.0-or-later'
 	);
 
 	### Register autocompletion icon ###

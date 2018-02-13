@@ -34,8 +34,6 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	die( "This file is part of the SemanticComments extension. It is not a valid entry point.\n" );
 }
 
-/* previous 
-define('CE_VERSION', '1.5.2_0 [B28]'); when part of the smw+ pkg*/
 define('CE_VERSION', '1.0');
 
 define('CE_COMMENT_ALL', 0);

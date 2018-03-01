@@ -8,7 +8,7 @@
   "semanticcomments"     : "SemanticComments",
 	"semanticcomments_desc": "SemanticComments ermöglicht das Anzeigen und Verwalten von Kommentaren auf einer Wiki-Seite mittels semantischen Annotationen.",
   "ce_sp_intro"       : "Diese Spezialseite erlaubt Ihnen einen schnellen Überblick über die neusten Kommentare in Ihrem Wiki.",
-	"ce_allowed"        : "Gratulation! CE funktioniert wie erwartet.",
+	"ce_allowed"        : "Gratulation! SemanticComments funktioniert wie erwartet.",
 	"ce_warning"        : "SemanticComments Warnung",
 	"ce_var_undef"      : "Folgende Variable wurde nicht richtig gesetzt: "$1". <br/> Bitte prüfen Sie ihre Einstellungen",
   "ce_cf_disabled"       : "Kommentare sind deaktiviert.",

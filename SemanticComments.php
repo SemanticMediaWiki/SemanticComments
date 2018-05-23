@@ -155,3 +155,4 @@ if( is_array( $smwhgDefaultACNamespaces )
 	$smwhgDefaultACNamespaces = array( -CE_COMMENT_NS );
 }
 
+enableSemanticComments();

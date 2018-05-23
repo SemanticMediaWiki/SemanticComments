@@ -47,7 +47,6 @@ function enableSemanticComments() {
 	require_once($cegIP . '/specials/Comment/CE_CommentParserFunctions.php');
 
 	$wgExtensionFunctions[] = 'cefSetupExtension';
-	$wgHooks['LanguageGetMagic'][] = 'cefAddMagicWords'; // setup names for parser functions (needed here)
 	$wgHooks['MakeGlobalVariablesScript'][] = 'cefAddGlobalJSVariables';
 
 	//--- Comment classes ---
@@ -236,15 +235,6 @@ function cefInitNamespaces() {
 /**
  * Internationalized messages
  */
-
-/**
- * Set up (possibly localised) names for SemanticComments
- */
-function cefAddMagicWords(&$magicWords, $langCode) {
-	#$magicWords['showcomments']     = array( 0, 'showcomments' );
-	#$magicWords['showcommentform']     = array( 0, 'showcommentform' );
-	return true;
-}
 
 /**
  * Initialise a global language object for content language. This

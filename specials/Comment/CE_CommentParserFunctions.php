@@ -37,8 +37,6 @@ global $cegIP;
 
 $wgExtensionFunctions[] = 'cefInitCommentParserfunctions';
 
-$wgHooks['LanguageGetMagic'][] = 'cefCommentLanguageGetMagic';
-
 
 function cefInitCommentParserfunctions() {
 	global $wgParser;
@@ -49,16 +47,6 @@ function cefInitCommentParserfunctions() {
 	$wgParser->setFunctionHook( 'averagerating', array( 'CECommentParserFunctions', 'getAverageRating' ) );
 	$wgParser->setFunctionHook( 'arraymapce', array( 'CECommentParserFunctions', 'renderArrayMap' ) );
 	$wgParser->setFunctionHook( 'bin2hex', array( 'CECommentParserFunctions', 'ceBin2Hex' ) );
-
-	return true;
-}
-
-function cefCommentLanguageGetMagic( &$magicWords, $langCode ) {
-	global $cegContLang;
-	$magicWords['showcommentform'] = array(0, 'showcommentform' );
-	$magicWords['averagerating'] = array( 0, 'averagerating' );
-	$magicWords['arraymapce'] = array ( 0, 'arraymapce' );
-	$magicWords['bin2hex'] = array ( 0, 'bin2hex' );
 
 	return true;
 }

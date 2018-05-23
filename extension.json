@@ -13,6 +13,9 @@
       "i18n"
     ]
   },
+  "ExtensionMessagesFiles": {
+    "SemanticCommentsMagic": "SemanticComments.i18n.magic.php"
+  },
   "AutoloadClasses": {
     "CECommentSpecial": "/specials/Comment/CECommentSpecial.php"
   },

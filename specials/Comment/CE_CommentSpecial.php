@@ -37,7 +37,6 @@ class CECommentSpecial extends SpecialPage {
 	}
 
 	function execute($query) {
-		wfProfileIn( __METHOD__ . ' [SemanticComments]' );
 		global $wgRequest, $wgOut, $wgScriptPath, $wgUser, $wgParser, $smwIP;
 
 		$wgOut->setPageTitle($this->msg('semanticcomments'));
@@ -66,6 +65,5 @@ class CECommentSpecial extends SpecialPage {
 		$pout = $wgParser->parse($queryText, $this->getPageTitle(), $popt);
 		$result = $pout->getText();
 		$wgOut->addHTML($result);
-		wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 	}
 }

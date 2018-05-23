@@ -53,7 +53,6 @@ class CEComment {
 	 * @return string
 	 */
 	public static function createComment( $pageName, $pageContent, $editMode = false ) {
-		wfProfileIn( __METHOD__ . ' [SemanticComments]' );
 		global $wgUser, $cegEnableComment, $cegEnableCommentFor;
 
 		$title = Title::newFromText( $pageName );
@@ -64,7 +63,6 @@ class CEComment {
 
 		# check if comments are enabled #
 		if ( !isset( $cegEnableComment ) || !$cegEnableComment ) {
-			wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 			return CECommentUtils::createXMLResponse(
 				wfMessage( 'ce_cf_disabled' )->text(),
 				self::PERMISSION_ERROR, $pageName
@@ -75,14 +73,12 @@ class CEComment {
 			|| ( $cegEnableCommentFor == CE_COMMENT_NOBODY )
 			|| ( ( $cegEnableCommentFor == CE_COMMENT_AUTH_ONLY ) && $wgUser->isAnon() ) )
 		{
-			wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 			return CECommentUtils::createXMLResponse(
 				wfMessage( 'ce_cf_disabled' )->text(),
 				self::PERMISSION_ERROR, $pageName );
 		} else {
 			//user is allowed
 			if ( $article->exists() && !$editMode ) {
-				wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 				return CECommentUtils::createXMLResponse(
 					wfMessage( 'ce_comment_exists', $pageName )->text(),
 					self::COMMENT_ALREADY_EXISTS, $pageName
@@ -126,12 +122,10 @@ try{
 
 			if ( $article->exists() ) {
 				self::updateRelatedArticle( $pageContent );
-				wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 				return CECommentUtils::createXMLResponse(
 								$responseText, self::SUCCESS, $pageName
 				);
 			} else {
-				wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 				return CECommentUtils::createXMLResponse(
 								wfMessage( 'ce_com_edit_not_exists' )->text(), self::PERMISSION_ERROR, $pageName
 				);
@@ -145,7 +139,6 @@ try{
 	 * @param string $commentContent
 	 */
 	public static function updateRelatedArticle( $commentContent ) {
-		wfProfileIn( __METHOD__ . ' [SemanticComments]' );
 		global $wgParser, $wgUser;
 		$commentHasRating = preg_match('/CommentRating=/', $commentContent);
 		$find = preg_match('/CommentRelatedArticle=(.*?)\|/', $commentContent, $extract);
@@ -165,6 +158,5 @@ try{
 				$store->updateData( $output->mSMWData );
 			}
 		}
-		wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 	}
 }

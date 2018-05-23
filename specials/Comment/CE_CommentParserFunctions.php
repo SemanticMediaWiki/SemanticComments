@@ -132,9 +132,12 @@ class CECommentParserFunctions {
 	 */
 	public static function showcommentform(&$parser) {
 		wfProfileIn( __METHOD__ . ' [SemanticComments]' );
-		global $cegContLang, $wgUser, $cegScriptPath, $cegEnableRatingForArticles,
+		global $wgOut, $cegContLang, $wgUser, $cegScriptPath, $cegEnableRatingForArticles,
 			$cegEnableFileAttachments, $cegUseRMUploadFunc, $cegDefaultDelimiter,
 			$smwgEnableRichMedia, $wgJsMimeType, $wgParser;
+
+        $parser->getOutput()->updateCacheExpiry( 0 );
+        $wgOut->enableClientCache( false );
 
 		# do checks #
 		$status = self::$mInstance->doInitialChecks($parser);

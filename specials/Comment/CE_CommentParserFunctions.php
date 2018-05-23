@@ -131,7 +131,6 @@ class CECommentParserFunctions {
 	 * 			... if there's sthg wrong, that can not be caught by CE itself
 	 */
 	public static function showcommentform(&$parser) {
-		wfProfileIn( __METHOD__ . ' [SemanticComments]' );
 		global $wgOut, $cegContLang, $wgUser, $cegScriptPath, $cegEnableRatingForArticles,
 			$cegEnableFileAttachments, $cegUseRMUploadFunc, $cegDefaultDelimiter,
 			$smwgEnableRichMedia, $wgJsMimeType, $wgParser;
@@ -147,22 +146,16 @@ class CECommentParserFunctions {
 				//continue
 				break;
 			case self::COMMENTS_DISABLED:
-				wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 				return self::$mInstance->commentFormWarning(wfMessage('ce_cf_disabled')->text());
 			case self::COMMENTS_FOR_NOT_DEF:
-				wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 				return self::$mInstance->commentFormWarning(wfMessage('ce_var_undef', 'cegEnableCommentFor')->text());
 			case self::NOBODY_ALLOWED_TO_COMMENT:
-				wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 				return self::$mInstance->commentFormWarning(wfMessage('ce_cf_all_not_allowed')->text());
 			case self::USER_NOT_ALLOWED_TO_COMMENT:
-				wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 				return self::$mInstance->commentFormWarning(wfMessage('ce_cf_you_not_allowed')->text());
 			case self::FORM_ALREADY_SHOWN:
-				wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 				return self::$mInstance->commentFormWarning(wfMessage('ce_cf_already_shown')->text());
 			default:
-				wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 				throw new CEException(CEException::INTERNAL_ERROR, __METHOD__ . ": Unknown value `{$status}` <br/>" );
 		}
 
@@ -356,7 +349,6 @@ class CECommentParserFunctions {
 
 		self::$mInstance->mCommentFormDisplayed = true;
 
-		wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 		return $parser->insertStripItem( $html, $parser->mStripState );
 	}
 
@@ -366,7 +358,6 @@ class CECommentParserFunctions {
 	 * @param Parser $parser
 	 */
 	public static function getAverageRating(&$parser) {
-		wfProfileIn( __METHOD__ . ' [SemanticComments]' );
 		$title = $parser->getTitle();
 		if (self::$mInstance->mTitle == null) {
 			self::$mInstance->mTitle = $title;
@@ -422,7 +413,6 @@ class CECommentParserFunctions {
 //		);
 		$count = count( $queryResult );
 		if( $count == 0 ) {
-			wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 			return '';
 		}
 		$sum = 0;
@@ -431,7 +421,6 @@ class CECommentParserFunctions {
 			$sum += $res;
 		}
 
-		wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 		return $sum / $count;
 	}
 
@@ -460,7 +449,6 @@ class CECommentParserFunctions {
 	 * @param delimiter the new delimiter
 	 */
 	static function renderArrayMap( &$parser, $value = '', $delimiter = ',', $var = 'x', $formula = 'x', $new_delimiter = ', ' ) {
-		wfProfileIn( __METHOD__ . ' [SemanticComments]' );
 		// let '\n' represent newlines - chances that anyone will
 		// actually need the '\n' literal are small
 		$delimiter = str_replace( '\n', "\n", $delimiter );
@@ -483,7 +471,6 @@ class CECommentParserFunctions {
 			}
 		}
 
-		wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 		return implode( $new_delimiter, $results );
 	}
 

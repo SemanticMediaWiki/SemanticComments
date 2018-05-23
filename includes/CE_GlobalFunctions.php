@@ -40,7 +40,6 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  * etc.
  */
 function enableSemanticComments() {
-	wfProfileIn( __METHOD__ . ' [SemanticComments]' );
 	global $cegIP, $cegEnableSemanticComments,  $cegEnableComment,
 		$wgExtensionMessagesFiles, $wgExtensionFunctions,
 		$wgAutoloadClasses, $wgHooks, $wgAPIModules;
@@ -70,7 +69,6 @@ function enableSemanticComments() {
 	//so that other extensions know about the SemanticComments extension
 	$cegEnableSemanticComments = true;
 
-	wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 	return true;
 }
 
@@ -82,7 +80,6 @@ function enableSemanticComments() {
  * credits, and init some globals that are not for configuration settings.
  */
 function cefSetupExtension() {
-	wfProfileIn( __METHOD__ . ' [SemanticComments]' );
 	global $wgHooks, $wgExtensionCredits, $wgRequest, $wgContLang, $wgSpecialPages, $wgOut;
 
 	///// Register specials pages
@@ -125,7 +122,6 @@ function cefSetupExtension() {
 	### Register autocompletion icon ###
 	$wgHooks['smwhACNamespaceMappings'][] = 'cefRegisterACIcon';
 
-	wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 	return true;
 }
 
@@ -209,7 +205,6 @@ function celfSetupScriptAndStyleModule() {
  * greater or equal to 100.
  */
 function cefInitNamespaces() {
-	wfProfileIn( __METHOD__ . ' [SemanticComments]' );
 	global $cegCommentNamespaceIndex, $wgExtraNamespaces, $wgNamespaceAliases,
 		$wgNamespacesWithSubpages, $wgLanguageCode, $cegContLang;
 
@@ -236,7 +231,6 @@ function cefInitNamespaces() {
 	global $smwgNamespacesWithSemanticLinks;
 	$smwgNamespacesWithSemanticLinks[CE_COMMENT_NS] = true;
 
-	wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 	return true;
 }
 
@@ -260,10 +254,8 @@ function cefAddMagicWords(&$magicWords, $langCode) {
  * can be initialised much later when they are actually needed.
  */
 function cefInitContentLanguage($langcode) {
-	wfProfileIn( __METHOD__ . ' [SemanticComments]' );
 	global $cegIP, $cegContLang;
 	if (!empty($cegContLang)) {
-		wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 		return;
 	}
 
@@ -279,8 +271,6 @@ function cefInitContentLanguage($langcode) {
 		$ceContLangClass = 'CELanguageEn';
 	}
 	$cegContLang = new $ceContLangClass();
-
-	wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 	return true;
 }
 
@@ -301,13 +291,11 @@ function cefInitMessages() {
  * Registers SemanticComments extension user messages.
  */
 function cefInitUserMessages() {
-	wfProfileIn( __METHOD__ . ' [SemanticComments]' );
 	global $wgMessageCache, $cegContLang, $wgLanguageCode;
 	cefInitContentLanguage($wgLanguageCode);
 
 	global $cegIP, $cegLang;
 	if( !empty( $cegLang ) ) {
-		wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 		return true;
 	}
 	global $wgMessageCache, $wgLang;
@@ -326,7 +314,6 @@ function cefInitUserMessages() {
 
 	$wgMessageCache->addMessages( $cegLang->getUserMsgArray(), $wgLang->getCode() );
 
-	wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 	return true;
 }
 
@@ -347,7 +334,6 @@ function cefRegisterACIcon( &$namespaceMappings) {
  * @return boolean true
  */
 function cefAddGlobalJSVariables( &$vars ) {
-	wfProfileIn( __METHOD__ . ' [SemanticComments]' );
 	global $cegScriptPath, $cegEnableRatingForArticles,
 		$cegShowCommentsExpanded, $cegEnableFileAttachments,
 		$cegUseRMUploadFunc, $smwgEnableRichMedia, $cegDefaultDelimiter;
@@ -372,6 +358,5 @@ function cefAddGlobalJSVariables( &$vars ) {
 		}
 	}
 
-	wfProfileOut( __METHOD__ . ' [SemanticComments]' );
 	return true;
 }

@@ -50,7 +50,6 @@ class CECommentDeleteApi extends ApiBase {
 	}
 
 	private function deleteComment( $pageName ) {
-		wfProfileIn( __METHOD__ . ' [Semantic Comments]' );
 		global $wgUser;
 		$pageName = CECommentUtils::unescape( $pageName );
 		$result = wfMessage( 'ce_nothing_deleted' )->text();
@@ -73,22 +72,18 @@ class CECommentDeleteApi extends ApiBase {
 				$article->doEditContent( ContentHandler::makeContent( $articleContentText, $title ), wfMessage( 'ce_comment_delete_reason' )->text() );
 				CEComment::updateRelatedArticle( $articleContentText );
 				$result = wfMessage( 'ce_comment_deletion_successful' )->text();
-				wfProfileOut( __METHOD__ . ' [Semantic Comments]' );
 				return CECommentUtils::createXMLResponse( $result, '0', $pageName );
 			} catch( Exception $e ) {
 				$result .= wfMessage( 'ce_comment_deletion_error' )->text();
 				$success = false;
-				wfProfileOut( __METHOD__ . ' [Semantic Comments]' );
 				return CECommentUtils::createXMLResponse( $result, '1', $pageName );
 			}
 		}
 
-		wfProfileOut( __METHOD__ . ' [Semantic Comments]' );
 		return CECommentUtils::createXMLResponse( 'sth went wrong here', '1', $pageName );
 	}
 
 	private function fullDeleteComments( $pageNames ) {
-		wfProfileIn( __METHOD__ . ' [Semantic Comments]' );
 		global $wgUser;
 		$pageNames = CECommentUtils::unescape( $pageNames );
 		$pageNames = explode( ',', $pageNames );
@@ -107,17 +102,14 @@ class CECommentDeleteApi extends ApiBase {
 			} catch( Exception $e ) {
 				$result .= wfMessage( 'ce_comment_deletion_error' )->text();
 				$success = false;
-				wfProfileOut( __METHOD__ . ' [Semantic Comments]' );
 				return CECommentUtils::createXMLResponse( $result, '1', $pageName);
 			}
 		}
 		if( $success ) {
 			$result = wfMessage( 'ce_comment_massdeletion_successful' )->text();
-			wfProfileOut( __METHOD__ . ' [Semantic Comments]' );
 			return CECommentUtils::createXMLResponse( $result, '0', $pageNames[0] );
 		} else {
 			$pageNames = json_encode($pageNames);
-			wfProfileOut( __METHOD__ . ' [Semantic Comments]' );
 			return CECommentUtils::createXMLResponse( 'sth went wrong here', '1', $pageNames );
 		}
 	}

@@ -49,7 +49,6 @@ function enableSemanticComments() {
 	$wgExtensionFunctions[] = 'cefSetupExtension';
 	$wgHooks['LanguageGetMagic'][] = 'cefAddMagicWords'; // setup names for parser functions (needed here)
 	$wgHooks['MakeGlobalVariablesScript'][] = 'cefAddGlobalJSVariables';
-	$wgExtensionMessagesFiles['SemanticComments'] = $cegIP . '/languages/CE_Messages.php'; // register messages (requires MW=>1.11)
 
 	//--- Comment classes ---
 	$wgAutoloadClasses['CEComment'] = $cegIP . '/specials/Comment/CE_Comment.php';

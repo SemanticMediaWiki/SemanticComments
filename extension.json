@@ -8,6 +8,11 @@
   "descriptionmsg": "myextension-desc",
   "license-name": "LGPL-2.0-or-later",
   "type": "other",
+  "MessagesDirs": {
+    "SemanticComments": [
+      "i18n"
+    ]
+  },
   "AutoloadClasses": {
     "CECommentSpecial": "/specials/Comment/CECommentSpecial.php"
   },

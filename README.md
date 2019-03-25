@@ -3,6 +3,9 @@ The [Semantic Comments](https://www.mediawiki.org/wiki/Extension:SemanticComment
 
 For details see [Semantic Comments](https://www.mediawiki.org/wiki/Extension:SemanticComments)
 
+## UNMAINTAINED!
+Even though some effort has been put into moving this extension to github and making it work with MW 1.27, the current maintainers decided to stop maintaining this extension (see [#25](https://github.com/SemanticMediaWiki/SemanticComments/issues/25)) in favour of the Extension [CommentStreams](https://www.mediawiki.org/wiki/Extension:CommentStreams) which is beeter maintained in in the meantime provides all the functions of SemanticTasks. You are still invited of course, to use it and improve it, but we advise you to have a close look at CommentStreams first.
+
 ## Contribution and support
 
 If you want to contribute work to the project please subscribe to the developers mailing list and

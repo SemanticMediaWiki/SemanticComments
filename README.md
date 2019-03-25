@@ -1,10 +1,10 @@
 # SemanticComments
 The [Semantic Comments](https://www.mediawiki.org/wiki/Extension:SemanticComments) (formerly known as "Collaboration Extension") is a [Semantic MediaWiki](https://www.semantic-mediawiki.org) extension to display and manage comments and replies that are attached to any page in a wiki using semantic properties.
 
-For details see [Semantic Comments](https://www.mediawiki.org/wiki/Extension:SemanticComments)
+For details see the [Semantic Comments homepage.](https://www.mediawiki.org/wiki/Extension:SemanticComments)
 
 ## UNMAINTAINED!
-Even though some effort has been put into moving this extension to github and making it work with MW 1.27, the current maintainers decided to stop maintaining this extension (see [#25](https://github.com/SemanticMediaWiki/SemanticComments/issues/25)) in favour of the Extension [CommentStreams](https://www.mediawiki.org/wiki/Extension:CommentStreams) which is beeter maintained in in the meantime provides all the functions of SemanticTasks. You are still invited of course, to use it and improve it, but we advise you to have a close look at CommentStreams first.
+Even though some effort has been put into moving this extension to GitHub and making it compatible with MediaWiki 1.27.x and Semantic MediaWiki 2.5.x it was decided to stop maintaining this extension (see [#25](https://github.com/SemanticMediaWiki/SemanticComments/issues/25)) in favour of the [CommentStreams extension](https://www.mediawiki.org/wiki/Extension:CommentStreams) which is maintained and in the meantime provides all functionality of Semantic Comments.
 
 ## Contribution and support
 
